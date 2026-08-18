@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stridekick Brand Kit — Preview</title>
+<style>
+:root {
+  --ink: #14141a;
+  --muted: #6b6b76;
+  --line: #e7e7ec;
+  --bg: #fafafa;
+  --panel: #ffffff;
+  --accent: #5b5fef;
+  --dont: #c0392b;
+  --dont-bg: #fdf1ef;
+  --radius: 12px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--panel);
+  border-bottom: 1px solid var(--line);
+}
+
+.topbar-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.brand-mark {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: -0.01em;
+}
+.brand-mark span { font-weight: 400; color: var(--muted); }
+
+.header-logo {
+  display: block;
+  height: 28px;
+  width: auto;
+  max-width: 220px;
+  object-fit: contain;
+}
+.header-logo[hidden] { display: none; }
+
+.search {
+  flex: 0 1 320px;
+  padding: 9px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  font-size: 14px;
+  outline: none;
+}
+.search:focus { border-color: var(--accent); }
+
+.layout {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 32px;
+  padding: 24px;
+}
+
+.sidenav {
+  position: sticky;
+  top: 76px;
+  align-self: start;
+  font-size: 14px;
+}
+.sidenav a {
+  display: block;
+  padding: 6px 10px;
+  border-radius: 8px;
+  color: var(--muted);
+  text-decoration: none;
+  margin-bottom: 2px;
+}
+.sidenav a:hover, .sidenav a.active { background: var(--line); color: var(--ink); }
+.sidenav .sub-link { padding-left: 22px; font-size: 13px; }
+
+.sidenav .nav-disabled {
+  display: block;
+  padding: 6px 10px;
+  margin-bottom: 2px;
+  color: #c7c7ce;
+  cursor: default;
+  user-select: none;
+}
+.sidenav .nav-disabled.sub-link { padding-left: 22px; font-size: 13px; }
+
+.content { min-width: 0; }
+
+.section {
+  padding-top: 8px;
+  margin-bottom: 48px;
+  scroll-margin-top: 76px;
+}
+
+.section h2 {
+  font-size: 22px;
+  margin: 0 0 4px;
+}
+
+.section-desc {
+  color: var(--muted);
+  font-size: 14px;
+  margin: 0 0 16px;
+}
+
+.subsection { margin: 20px 0 28px; scroll-margin-top: 76px; }
+.subsection h3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0 0 10px;
+}
+
+.subsection.is-dont h3 { color: var(--dont); }
+.subsection.is-dont { background: var(--dont-bg); border-radius: var(--radius); padding: 14px 16px; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 14px;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: pointer;
+  transition: box-shadow 0.15s, transform 0.15s;
+}
+.card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); transform: translateY(-1px); }
+.is-dont .card { border-color: rgba(192,57,57,0.35); }
+
+.card-thumb {
+  aspect-ratio: 4 / 3;
+  background: #f1f1f4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.card-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+.card-body { padding: 10px 12px; }
+.card-name {
+  font-size: 13px;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.card-kind {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-top: 2px;
+}
+
+.empty-note {
+  font-size: 13px;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.loading { color: var(--muted); }
+
+.modal {
+  position: fixed; inset: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: center;
+}
+.modal[hidden] { display: none; }
+.modal-backdrop { position: absolute; inset: 0; background: rgba(20,20,26,0.6); }
+.modal-body {
+  position: relative;
+  background: var(--panel);
+  border-radius: var(--radius);
+  max-width: min(720px, 90vw);
+  max-height: 85vh;
+  overflow: auto;
+  padding: 24px;
+}
+.modal-close {
+  position: absolute; top: 10px; right: 14px;
+  background: none; border: none; font-size: 22px; cursor: pointer; color: var(--muted);
+}
+.modal-body img, .modal-body iframe, .modal-body video { max-width: 100%; border-radius: 8px; }
+.modal-actions { margin-top: 14px; display: flex; gap: 10px; }
+.btn {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+}
+.btn.secondary { background: var(--line); color: var(--ink); }
+
+@media (max-width: 720px) {
+  .layout { grid-template-columns: 1fr; }
+  .sidenav { position: static; display: flex; overflow-x: auto; gap: 4px; padding-bottom: 8px; }
+  .sidenav a { white-space: nowrap; }
+  .sidenav .sub-link { display: none; }
+}
+
+.preview-banner {
+  background: #14141a; color: #fff; text-align: center; font-size: 13px;
+  padding: 8px 12px;
+}
+</style>
+</head>
+<body>
+<div class="preview-banner">Preview with sample data — greyed nav items are sections planned but not in Drive yet.</div>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand-mark">
+      <img id="header-logo" class="header-logo" alt="Stridekick" hidden>
+      <span id="header-logo-fallback">Stridekick <span>Brand Kit</span></span>
+    </div>
+    <input id="search" class="search" type="search" placeholder="Search assets…" aria-label="Search assets">
+  </div>
+</header>
+
+<div class="layout">
+  <nav id="sidenav" class="sidenav" aria-label="Sections"></nav>
+  <main id="content" class="content">
+    <p class="loading">Loading brand kit…</p>
+  </main>
+</div>
+
+<div id="modal" class="modal" hidden>
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-body">
+    <button class="modal-close" data-close aria-label="Close">&times;</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<script>
+window.__MANIFEST__ = {"generatedAt": "2026-08-17T00:00:00Z", "source": "sample-data", "note": "This is placeholder data shaped like the folder structure described, so the site can be previewed before the Drive sync script is connected. Run sync/fetch-drive-manifest.js against the real Drive folder to replace this file.", "root": {"name": "Stridekick Brand Kit", "folders": [{"name": "Logos", "slug": "logos", "description": "Primary marks. Use these files as-is \u2014 don't recolor, stretch, or rebuild them from scratch.", "folders": [{"name": "Symbol", "slug": "logos-symbol", "files": [{"name": "Symbol - Full Color.svg", "kind": "image", "thumbnailUrl": "https://placehold.co/400x300/5B5FEF/ffffff?text=Symbol", "viewUrl": "#", "downloadUrl": "#"}, {"name": "Symbol - White.svg", "kind": "image", "thumbnailUrl": "https://placehold.co/400x300/1a1a1a/ffffff?text=Symbol+White", "viewUrl": "#", "downloadUrl": "#"}]}, {"name": "Logotype", "slug": "logos-logotype", "folders": [{"name": "Vertical", "slug": "logos-logotype-vert", "files": [{"name": "Logotype - Vertical.svg", "kind": "image", "thumbnailUrl": "https://placehold.co/400x300/5B5FEF/ffffff?text=Vertical", "viewUrl": "#", "downloadUrl": "#"}]}, {"name": "Horizontal", "slug": "logos-logotype-horiz", "files": [{"name": "Logotype - Horizontal Purple.svg", "kind": "image", "thumbnailUrl": "https://placehold.co/600x160/5B5FEF/ffffff?text=Stridekick", "viewUrl": "#", "downloadUrl": "#"}]}]}, {"name": "Pro", "slug": "logos-pro", "description": "Protected clear-space and minimum-size specs.", "files": [{"name": "Clearspace + Minimum Size.pdf", "kind": "pdf", "thumbnailUrl": "https://placehold.co/400x300/e5e5e5/1a1a1a?text=PDF", "viewUrl": "#", "downloadUrl": "#"}]}]}, {"name": "Typography", "slug": "typography", "folders": [{"name": "Web", "slug": "typography-web", "files": [{"name": "Web type specimen.png", "kind": "image", "thumbnailUrl": "https://placehold.co/400x300/111111/ffffff?text=Aa+Web", "viewUrl": "#", "downloadUrl": "#"}]}, {"name": "iPhone", "slug": "typography-iphone", "files": [{"name": "iOS type specimen.png", "kind": "image", "thumbnailUrl": "https://placehold.co/400x300/111111/ffffff?text=Aa+iOS", "viewUrl": "#", "downloadUrl": "#"}]}, {"name": "Custom Lettering", "slug": "typography-custom-lettering", "files": [{"name": "Custom lettering examples.png", "kind": "image", "thumbnailUrl": "https://placehold.co/400x300/111111/ffffff?text=Lettering", "viewUrl": "#", "downloadUrl": "#"}]}, {"name": "In Use", "slug": "typography-in-use", "files": [{"name": "Typography in use.png", "kind": "image", "thumbnailUrl": "https://placehold.co/400x300/111111/ffffff?text=In+Use", "viewUrl": "#", "downloadUrl": "#"}]}, {"name": "Typography No's", "slug": "typography-nos", "isDont": true, "files": [{"name": "Don't - condensed or stretched.png", "kind": "image", "thumbnailUrl": "https://placehold.co/400x300/c0392b/ffffff?text=Don%27t", "viewUrl": "#", "downloadUrl": "#"}]}]}, {"name": "Visual Patterns", "slug": "visual-patterns", "folders": [{"name": "Type Outline", "slug": "patterns-type-outline", "files": [{"name": "Type outline pattern.png", "kind": "image", "thumbnailUrl": "https://placehold.co/400x300/2c3e50/ffffff?text=Outline", "viewUrl": "#", "downloadUrl": "#"}]}, {"name": "Type Shadow", "slug": "patterns-type-shadow", "files": [{"name": "Type shadow pattern.png", "kind": "image", "thumbnailUrl": "https://placehold.co/400x300/2c3e50/ffffff?text=Shadow", "viewUrl": "#", "downloadUrl": "#"}]}, {"name": "What Not To Do", "slug": "patterns-what-not-to-do", "isDont": true, "files": [{"name": "Don't - low contrast pattern.png", "kind": "image", "thumbnailUrl": "https://placehold.co/400x300/c0392b/ffffff?text=Don%27t", "viewUrl": "#", "downloadUrl": "#"}]}]}, {"name": "Stickers", "slug": "stickers", "folders": [{"name": "How To Use", "slug": "stickers-how-to-use", "files": [{"name": "Sticker usage guide.png", "kind": "image", "thumbnailUrl": "https://placehold.co/400x300/f39c12/1a1a1a?text=How+To+Use", "viewUrl": "#", "downloadUrl": "#"}]}, {"name": "Not To Do", "slug": "stickers-not-to-do", "isDont": true, "files": []}, {"name": "What Not To Do", "slug": "stickers-what-not-to-do", "isDont": true, "files": [{"name": "Don't - sticker misuse.png", "kind": "image", "thumbnailUrl": "https://placehold.co/400x300/c0392b/ffffff?text=Don%27t", "viewUrl": "#", "downloadUrl": "#"}]}]}, {"name": "Imagery", "slug": "imagery", "folders": [{"name": "Videos", "slug": "imagery-videos", "files": [{"name": "Brand reel.mp4", "kind": "video", "thumbnailUrl": "https://placehold.co/400x300/16a085/ffffff?text=Video", "viewUrl": "#", "downloadUrl": "#"}]}, {"name": "Photography - Lifestyle", "slug": "imagery-photo-lifestyle", "files": [{"name": "Lifestyle 01.jpg", "kind": "image", "thumbnailUrl": "https://placehold.co/400x300/8e44ad/ffffff?text=Lifestyle", "viewUrl": "#", "downloadUrl": "#"}]}, {"name": "Photography - Product", "slug": "imagery-photo-product", "files": [{"name": "Product 01.jpg", "kind": "image", "thumbnailUrl": "https://placehold.co/400x300/8e44ad/ffffff?text=Product", "viewUrl": "#", "downloadUrl": "#"}]}, {"name": "Device Mock-ups", "slug": "imagery-device-mockups", "files": [{"name": "iPhone mockup.png", "kind": "image", "thumbnailUrl": "https://placehold.co/400x300/34495e/ffffff?text=Mockup", "viewUrl": "#", "downloadUrl": "#"}]}, {"name": "Screenshots", "slug": "imagery-screenshots", "files": [{"name": "App screenshot 01.png", "kind": "image", "thumbnailUrl": "https://placehold.co/400x300/34495e/ffffff?text=Screenshot", "viewUrl": "#", "downloadUrl": "#"}]}]}]}};
+</script>
+<script>
+// The full shape of the brand kit, as planned — including sections that
+// don't have real Drive folders yet. The nav renders every one of these;
+// anything not yet matched to a real folder in Drive shows up greyed out
+// and unclickable instead of being hidden. As you add the real folders in
+// Drive, matching entries here light up automatically (matching is by
+// name, case/punctuation-insensitive — e.g. "Photography - Product" and
+// "photography product" match).
+//
+// Safe to edit any time: rename, reorder, add, or remove entries to keep
+// this in sync with how the kit actually gets built out. Any folder that
+// exists in Drive but ISN'T listed here still shows up too — it's just
+// appended at the end — so nothing real ever gets hidden by this file
+// being out of date.
+window.PLANNED_TAXONOMY = [
+  {
+    name: 'Logos',
+    children: [
+      { name: 'Symbol' },
+      { name: 'Logotype', children: [{ name: 'Vertical' }, { name: 'Horizontal' }] },
+      { name: 'Pro' },
+    ],
+  },
+  {
+    name: 'Typography',
+    children: [
+      { name: 'Web' },
+      { name: 'iPhone' },
+      { name: 'Custom Lettering' },
+      { name: 'In Use' },
+      { name: "Typography No's" },
+    ],
+  },
+  {
+    name: 'Visual Patterns',
+    children: [
+      { name: 'Type Outline' },
+      { name: 'Type Shadow' },
+      { name: 'What Not To Do' },
+    ],
+  },
+  {
+    name: 'Stickers',
+    children: [
+      { name: 'How To Use' },
+      { name: 'Not To Do' },
+      { name: 'What Not To Do' },
+    ],
+  },
+  {
+    name: 'Imagery',
+    children: [
+      { name: 'Videos' },
+      { name: 'Photography - Lifestyle' },
+      { name: 'Photography - Product' },
+      { name: 'Device Mock-ups' },
+      { name: 'Screenshots' },
+      { name: 'Collages' },
+      { name: 'What Not To Use' },
+    ],
+  },
+  {
+    name: 'Icons',
+    children: [
+      { name: 'Coloring' },
+      { name: 'Bubble Icons' },
+      { name: '3D Icon / Status' },
+      { name: 'What Not To Do' },
+    ],
+  },
+  { name: 'Example Layouts' },
+];
+
+</script>
+<script>
+(async function () {
+  const content = document.getElementById('content');
+  const sidenav = document.getElementById('sidenav');
+  const searchInput = document.getElementById('search');
+  const modal = document.getElementById('modal');
+  const modalContent = document.getElementById('modal-content');
+  const headerLogo = document.getElementById('header-logo');
+  const headerLogoFallback = document.getElementById('header-logo-fallback');
+
+  const manifest = window.__MANIFEST__;
+  render(manifest.root);
+  setHeaderLogo(manifest.root);
+
+  async function loadManifest() {
+    // 1. Live Apps Script endpoint (set in config.js) — always current.
+    const liveUrl = window.BRAND_KIT_CONFIG && window.BRAND_KIT_CONFIG.manifestUrl;
+    if (liveUrl) {
+      try {
+        const res = await fetch(liveUrl, { cache: 'no-store' });
+        if (res.ok) return await res.json();
+        console.warn('manifestUrl responded but not OK, falling back:', res.status);
+      } catch (e) {
+        console.warn('manifestUrl fetch failed, falling back:', e);
+      }
+    }
+    // 2. A manifest.json committed alongside the site (e.g. by the
+    //    GitHub Actions sync workflow, if you're using that instead).
+    try {
+      const res = await fetch('data/manifest.json', { cache: 'no-store' });
+      if (res.ok) return await res.json();
+    } catch (e) { /* fall through */ }
+    // 3. Bundled sample data, so the site never shows a blank page.
+    const res = await fetch('data/manifest.sample.json');
+    return await res.json();
+  }
+
+  function slugify(name) {
+    return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+  }
+
+  function normalize(name) {
+    return (name || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+  }
+
+  function findMatch(folders, name) {
+    const target = normalize(name);
+    return (folders || []).find((f) => normalize(f.name) === target);
+  }
+
+  // Finds a header logo from Logos > Logotype > Horizontal (preferring a
+  // file with "purple" in the name), falling back one level up if that
+  // exact structure isn't there yet.
+  function findHeaderLogoFile(root) {
+    const logos = findMatch(root.folders, 'Logos');
+    const logotype = logos && findMatch(logos.folders, 'Logotype');
+    const horizontal = logotype && findMatch(logotype.folders, 'Horizontal');
+    const pool = (horizontal && horizontal.files && horizontal.files.length)
+      ? horizontal.files
+      : (logotype && logotype.files) || [];
+    if (!pool.length) return null;
+    return pool.find((f) => /purple/i.test(f.name)) || pool[0];
+  }
+
+  function setHeaderLogo(root) {
+    const file = findHeaderLogoFile(root);
+    if (file && file.thumbnailUrl) {
+      // If the image fails to load for any reason (deleted file, a
+      // network hiccup), fall back to the text mark instead of leaving
+      // a broken-image icon in the header.
+      headerLogo.onerror = () => {
+        headerLogo.hidden = true;
+        headerLogoFallback.hidden = false;
+      };
+      headerLogo.alt = file.name;
+      headerLogo.src = file.thumbnailUrl;
+      headerLogo.hidden = false;
+      headerLogoFallback.hidden = true;
+    } else {
+      headerLogo.hidden = true;
+      headerLogoFallback.hidden = false;
+    }
+  }
+
+  function kindLabel(kind) {
+    return { image: 'Image', video: 'Video', pdf: 'PDF', folder: 'Folder', other: 'File' }[kind] || 'File';
+  }
+
+  function fileCard(file) {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="card-thumb">${file.thumbnailUrl ? `<img loading="lazy" src="${file.thumbnailUrl}" alt="">` : ''}</div>
+      <div class="card-body">
+        <div class="card-name" title="${file.name}">${file.name}</div>
+        <div class="card-kind">${kindLabel(file.kind)}</div>
+      </div>`;
+    card.addEventListener('click', () => openModal(file));
+    return card;
+  }
+
+  function openModal(file) {
+    let preview = '';
+    if (file.kind === 'image') {
+      preview = `<img src="${file.thumbnailUrl}" alt="${file.name}">`;
+    } else if (file.kind === 'video') {
+      preview = `<iframe src="${file.viewUrl}" allow="autoplay" width="640" height="480" frameborder="0"></iframe>`;
+    } else {
+      preview = `<div class="card-thumb"><img src="${file.thumbnailUrl}" alt=""></div>`;
+    }
+    modalContent.innerHTML = `
+      <h3>${file.name}</h3>
+      ${preview}
+      <div class="modal-actions">
+        <a class="btn" href="${file.downloadUrl}" target="_blank" rel="noopener">Download</a>
+        <a class="btn secondary" href="${file.viewUrl}" target="_blank" rel="noopener">Open in Drive</a>
+      </div>`;
+    modal.hidden = false;
+  }
+
+  modal.addEventListener('click', (e) => {
+    if (e.target.hasAttribute('data-close')) modal.hidden = true;
+  });
+
+  function subsectionEl(folder, parentSlug) {
+    const slug = `${parentSlug}-${slugify(folder.name)}`;
+    const wrap = document.createElement('div');
+    wrap.className = 'subsection' + (folder.isDont ? ' is-dont' : '');
+    wrap.id = slug;
+
+    const h3 = document.createElement('h3');
+    h3.textContent = (folder.isDont ? '⚠ ' : '') + folder.name;
+    wrap.appendChild(h3);
+
+    if (folder.description) {
+      const p = document.createElement('p');
+      p.className = 'section-desc';
+      p.textContent = folder.description;
+      wrap.appendChild(p);
+    }
+
+    const files = folder.files || [];
+    if (files.length) {
+      const grid = document.createElement('div');
+      grid.className = 'grid';
+      files.forEach((f) => grid.appendChild(fileCard(f)));
+      wrap.appendChild(grid);
+    } else if (!(folder.folders && folder.folders.length)) {
+      const note = document.createElement('p');
+      note.className = 'empty-note';
+      note.textContent = 'No assets yet.';
+      wrap.appendChild(note);
+    }
+
+    (folder.folders || []).forEach((sub) => wrap.appendChild(subsectionEl(sub, slug)));
+    return wrap;
+  }
+
+  function navLink(href, text, extraClass) {
+    const a = document.createElement('a');
+    a.href = href;
+    a.textContent = text;
+    if (extraClass) a.className = extraClass;
+    return a;
+  }
+
+  function navDisabled(text, extraClass) {
+    const span = document.createElement('span');
+    span.textContent = text;
+    span.className = 'nav-disabled' + (extraClass ? ' ' + extraClass : '');
+    span.title = 'Not added to Drive yet';
+    return span;
+  }
+
+  function buildSection(folder, slug) {
+    const section = document.createElement('section');
+    section.className = 'section';
+    section.id = slug;
+
+    const h2 = document.createElement('h2');
+    h2.textContent = folder.name;
+    section.appendChild(h2);
+
+    if (folder.description) {
+      const p = document.createElement('p');
+      p.className = 'section-desc';
+      p.textContent = folder.description;
+      section.appendChild(p);
+    }
+
+    const files = folder.files || [];
+    if (files.length) {
+      const grid = document.createElement('div');
+      grid.className = 'grid';
+      files.forEach((f) => grid.appendChild(fileCard(f)));
+      section.appendChild(grid);
+    }
+
+    (folder.folders || []).forEach((sub) => section.appendChild(subsectionEl(sub, slug)));
+    return section;
+  }
+
+  // Renders one planned category against whatever's actually live in
+  // Drive: matched categories get real nav links + content; unmatched
+  // ones (and their planned children) render greyed out and unlinked.
+  function renderPlannedCategory(planned, liveFolders, matchedLiveFolders) {
+    const slug = slugify(planned.name);
+    const live = findMatch(liveFolders, planned.name);
+
+    if (!live) {
+      sidenav.appendChild(navDisabled(planned.name));
+      (planned.children || []).forEach((sub) => {
+        sidenav.appendChild(navDisabled(sub.name, 'sub-link'));
+      });
+      return null;
+    }
+
+    matchedLiveFolders.add(live);
+    sidenav.appendChild(navLink(`#${slug}`, planned.name));
+
+    const liveSubfolders = live.folders || [];
+    const matchedSub = new Set();
+    (planned.children || []).forEach((sub) => {
+      const liveSub = findMatch(liveSubfolders, sub.name);
+      const subSlug = `${slug}-${slugify(sub.name)}`;
+      if (liveSub) {
+        matchedSub.add(liveSub);
+        sidenav.appendChild(navLink(`#${subSlug}`, sub.name, 'sub-link'));
+      } else {
+        sidenav.appendChild(navDisabled(sub.name, 'sub-link'));
+      }
+    });
+
+    // Any real subfolder not covered by the planned list still gets a
+    // nav link — new folders in Drive are never hidden by this file
+    // being out of date.
+    liveSubfolders.filter((f) => !matchedSub.has(f)).forEach((f) => {
+      sidenav.appendChild(navLink(`#${slug}-${slugify(f.name)}`, f.name, 'sub-link'));
+    });
+
+    return buildSection(live, slug);
+  }
+
+  function render(root) {
+    content.innerHTML = '';
+    sidenav.innerHTML = '';
+
+    const liveFolders = root.folders || [];
+    const matchedLiveFolders = new Set();
+    const taxonomy = window.PLANNED_TAXONOMY || [];
+
+    taxonomy.forEach((planned) => {
+      const section = renderPlannedCategory(planned, liveFolders, matchedLiveFolders);
+      if (section) content.appendChild(section);
+    });
+
+    // Real top-level folders that aren't part of the planned taxonomy at
+    // all (e.g. a brand-new category) still render normally, appended
+    // after the planned ones.
+    liveFolders.filter((f) => !matchedLiveFolders.has(f)).forEach((folder) => {
+      const slug = slugify(folder.name);
+      sidenav.appendChild(navLink(`#${slug}`, folder.name));
+      (folder.folders || []).forEach((sub) => {
+        sidenav.appendChild(navLink(`#${slug}-${slugify(sub.name)}`, sub.name, 'sub-link'));
+      });
+      content.appendChild(buildSection(folder, slug));
+    });
+  }
+
+  searchInput.addEventListener('input', () => {
+    const q = searchInput.value.trim().toLowerCase();
+    document.querySelectorAll('.card').forEach((card) => {
+      const name = card.querySelector('.card-name').textContent.toLowerCase();
+      card.style.display = !q || name.includes(q) ? '' : 'none';
+    });
+  });
+})();
+
+</script>
+</body>
+</html>

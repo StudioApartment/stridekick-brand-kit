@@ -1,0 +1,57 @@
+name: Sync Drive manifest and deploy brand kit
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'   # every 6 hours — adjust to taste
+  workflow_dispatch: {}      # lets you trigger it manually from the Actions tab
+
+jobs:
+  sync-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install sync dependencies
+        working-directory: sync
+        run: npm install
+
+      - name: Pull latest manifest from Drive
+        working-directory: sync
+        env:
+          DRIVE_ROOT_FOLDER_ID: ${{ secrets.DRIVE_ROOT_FOLDER_ID }}
+          GOOGLE_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
+        run: npm run sync
+
+      - name: Commit updated manifest (if changed)
+        run: |
+          git config user.name "brand-kit-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add site/data/manifest.json
+          git diff --cached --quiet || git commit -m "Sync brand kit manifest from Drive"
+          git push
+
+      # --- Pick ONE deploy step below depending on your host, then delete the others ---
+
+      # Cloudflare Pages
+      # - name: Deploy to Cloudflare Pages
+      #   uses: cloudflare/pages-action@v1
+      #   with:
+      #     apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      #     accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      #     projectName: stridekick-brand-kit
+      #     directory: site
+
+      # Netlify
+      # - name: Deploy to Netlify
+      #   uses: nwtgck/actions-netlify@v3
+      #   with:
+      #     publish-dir: site
+      #   env:
+      #     NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      #     NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+      # Vercel, GitHub Pages, etc. also work — see README.md "Hosting" section.

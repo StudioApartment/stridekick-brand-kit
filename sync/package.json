@@ -1,0 +1,13 @@
+{
+  "name": "stridekick-brand-kit-sync",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Pulls the Stridekick brand kit folder tree from Google Drive into site/data/manifest.json",
+  "main": "fetch-drive-manifest.js",
+  "scripts": {
+    "sync": "node fetch-drive-manifest.js"
+  },
+  "dependencies": {
+    "googleapis": "^140.0.0"
+  }
+}

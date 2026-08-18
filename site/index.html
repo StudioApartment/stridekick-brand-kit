@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stridekick Brand Kit</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<!-- config.js holds the one setting you need to edit: manifestUrl -->
+
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand-mark">
+      <img id="header-logo" class="header-logo" alt="Stridekick" hidden>
+      <span id="header-logo-fallback">Stridekick <span>Brand Kit</span></span>
+    </div>
+    <input id="search" class="search" type="search" placeholder="Search assets…" aria-label="Search assets">
+  </div>
+</header>
+
+<div class="layout">
+  <nav id="sidenav" class="sidenav" aria-label="Sections"></nav>
+  <main id="content" class="content">
+    <p class="loading">Loading brand kit…</p>
+  </main>
+</div>
+
+<div id="modal" class="modal" hidden>
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-body">
+    <button class="modal-close" data-close aria-label="Close">&times;</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<script src="config.js"></script>
+<script src="planned-taxonomy.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
