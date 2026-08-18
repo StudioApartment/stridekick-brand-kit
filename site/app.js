@@ -7,6 +7,20 @@
   let colorLibrary = [];
   const DONT_PATTERN = /don'?t|not to do|no's\b|what not/i;
 
+  let toastEl = null;
+  let toastTimeout = null;
+  function showToast(message) {
+    if (!toastEl) {
+      toastEl = document.createElement('div');
+      toastEl.className = 'toast';
+      document.body.appendChild(toastEl);
+    }
+    toastEl.textContent = message;
+    toastEl.classList.add('visible');
+    clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => toastEl.classList.remove('visible'), 1400);
+  }
+
   const homeLink = document.getElementById('home-link');
   if (homeLink) {
     homeLink.addEventListener('click', (e) => {
@@ -408,13 +422,13 @@
     card.title = 'Click to copy hex';
     card.addEventListener('click', () => {
       navigator.clipboard?.writeText(color.hex).catch(() => {});
-      card.classList.add('copied');
-      setTimeout(() => card.classList.remove('copied'), 900);
+      showToast(`Copied ${color.hex.toUpperCase()} — ${color.name}`);
     });
     card.querySelectorAll('.tint-chip').forEach((chip) => {
       chip.addEventListener('click', (e) => {
         e.stopPropagation();
         navigator.clipboard?.writeText(chip.dataset.hex).catch(() => {});
+        showToast(`Copied ${chip.dataset.hex.toUpperCase()} — ${chip.dataset.tooltip.split(' — ')[0]}`);
       });
     });
     return card;

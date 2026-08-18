@@ -245,7 +245,24 @@ body {
   transition: transform 0.25s ease;
 }
 .color-card:hover { transform: translateY(-4px) scale(1.02); }
-.color-card.copied .color-swatch::after { content: "Copied!"; }
+
+.toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--ink);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 22px;
+  border-radius: 10px;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.toast.visible { opacity: 1; }
 
 .color-swatch {
   flex: 1 1 auto;
