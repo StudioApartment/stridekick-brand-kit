@@ -393,7 +393,9 @@
       color.hex.toUpperCase(),
       hexToRgbString(color.rgb),
       color.cmyk ? `CMYK ${color.cmyk.join('/')}` : '',
-      color.pms ? `PMS ${color.pms}` : '',
+      // Always show a PMS line, even blank, so every card has the same
+      // shape until the real Pantone matches are filled in.
+      color.pms ? `PMS ${color.pms}` : 'PMS',
     ].filter(Boolean);
     card.innerHTML = `
       <div class="color-swatch">
