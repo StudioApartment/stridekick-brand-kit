@@ -46,6 +46,7 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
+  margin-left: -2px;
   white-space: nowrap;
   text-decoration: none;
   cursor: pointer;
@@ -256,7 +257,7 @@ body {
   font-size: 14px;
   font-weight: 600;
   line-height: 1;
-  padding: 16px 22px 8px;
+  padding: 10px 13px 5px;
   border-radius: 10px;
   z-index: 1000;
   opacity: 0;
