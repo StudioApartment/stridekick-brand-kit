@@ -32,7 +32,7 @@
  * won't need this.
  */
 
-const ROOT_FOLDER_ID = 'PASTE_YOUR_FOLDER_ID_HERE';
+const ROOT_FOLDER_ID = '1y3qv2wvSBCGJPjCXHmnXnsxN8teLOjz8';
 const DONT_PATTERN = /don'?t|not to do|no'?s\b|what not/i;
 
 function doGet(e) {
