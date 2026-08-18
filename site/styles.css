@@ -47,6 +47,8 @@ body {
   align-items: center;
   gap: 8px;
   white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .header-logo-icon { display: block; height: 26px; width: auto; flex-shrink: 0; }
@@ -98,8 +100,9 @@ body {
   text-decoration: none;
   cursor: pointer;
   font-weight: 500;
+  transition: padding-left 0.12s;
 }
-.sidenav a:hover, .sidenav a.active { background: rgba(102, 11, 167, 0.08); color: var(--accent); }
+.sidenav a:hover, .sidenav a.active { background: rgba(102, 11, 167, 0.08); color: var(--accent); padding-left: 10px; }
 .sidenav a:not(.sub-link) { font-size: 17px; font-weight: 700; padding: 8px 10px 2px 0; }
 .sidenav .sub-link { padding: 2px 10px 2px 0; font-size: 14px; line-height: 1.3; }
 
@@ -167,16 +170,16 @@ body {
   gap: 14px;
 }
 
+.grid.logo-grid { grid-template-columns: repeat(3, 1fr); }
+
 .card {
   background: var(--panel);
-  border: 1px solid var(--line);
   border-radius: var(--radius);
   overflow: hidden;
   cursor: pointer;
-  transition: box-shadow 0.15s, transform 0.15s;
+  transition: transform 0.25s ease;
 }
-.card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); transform: translateY(-1px); }
-.is-dont .card { border-color: rgba(192,57,57,0.35); }
+.card:hover { transform: translateY(-4px) scale(1.02); }
 
 .card-thumb {
   aspect-ratio: 4 / 3;
@@ -188,18 +191,21 @@ body {
   padding: 16px;
 }
 .card-thumb img { width: 100%; height: 100%; object-fit: contain; }
-.card-thumb.is-vertical { padding: 40px 24px; }
+.card-thumb.is-logo { aspect-ratio: 1 / 1; padding: 32px; }
+.card-thumb.is-logo.is-vertical { padding: 52px 40px; }
 
 .logo-name { font-size: 15px; font-weight: 700; color: var(--ink); }
 
-.format-links { display: flex; gap: 10px; margin-top: 4px; }
+.format-links { display: flex; gap: 6px; margin-top: 4px; }
 .format-link {
   font-size: 12px;
   font-weight: 600;
   color: var(--accent);
   text-decoration: none;
+  background: rgba(102, 11, 167, 0.08);
+  border-radius: 8px;
+  padding: 3px 8px;
 }
-.format-link:hover { text-decoration: underline; }
 
 .card-body { padding: 10px 12px; }
 .card-name {
@@ -221,6 +227,7 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 14px;
+  margin-bottom: 56px;
   scroll-margin-top: 76px;
 }
 
@@ -229,16 +236,15 @@ body {
   flex-direction: column;
   height: 260px;
   background: var(--panel);
-  border: 1px solid var(--line);
   border-radius: var(--radius);
   overflow: hidden;
   cursor: pointer;
   padding: 0;
   text-align: left;
   font-family: inherit;
-  transition: box-shadow 0.15s, transform 0.15s;
+  transition: transform 0.25s ease;
 }
-.color-card:hover { box-shadow: 0 4px 16px rgba(23, 30, 67, 0.12); transform: translateY(-1px); }
+.color-card:hover { transform: translateY(-4px) scale(1.02); }
 .color-card.copied .color-swatch::after { content: "Copied!"; }
 
 .color-swatch {

@@ -7,6 +7,15 @@
   let colorLibrary = [];
   const DONT_PATTERN = /don'?t|not to do|no's\b|what not/i;
 
+  const homeLink = document.getElementById('home-link');
+  if (homeLink) {
+    homeLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      history.pushState('', document.title, window.location.pathname + window.location.search);
+    });
+  }
+
   const CACHE_KEY = 'brandKitManifestCache';
 
   function readCache() {
@@ -157,7 +166,7 @@
     card.className = 'card';
     const primaryFile = group.files.find((f) => f.ext === 'SVG') || group.files[0];
     const backdrop = logoBackdrop(group.base, index);
-    const thumbClass = 'card-thumb' + (/vertical/i.test(group.base) ? ' is-vertical' : '');
+    const thumbClass = 'card-thumb is-logo' + (/vertical/i.test(group.base) ? ' is-vertical' : '');
     const thumbStyle = backdrop ? ` style="background:${backdrop}"` : '';
 
     const parts = group.base.split('-').filter(Boolean);
@@ -230,10 +239,13 @@
     wrap.appendChild(h3);
 
     const groups = groupLogoFiles(files);
+    // Horizontals first as one row, then verticals as the next.
+    const horizontals = groups.filter((g) => !/vertical/i.test(g.base));
+    const verticals = groups.filter((g) => /vertical/i.test(g.base));
     const familyCounts = {};
     const grid = document.createElement('div');
-    grid.className = 'grid';
-    groups.forEach((g) => {
+    grid.className = 'grid logo-grid';
+    [...horizontals, ...verticals].forEach((g) => {
       const familyKey = /grimace/i.test(g.base) ? 'grimace' : /midnight/i.test(g.base) ? 'midnight' : /white/i.test(g.base) ? 'white' : 'other';
       const index = familyCounts[familyKey] || 0;
       familyCounts[familyKey] = index + 1;
