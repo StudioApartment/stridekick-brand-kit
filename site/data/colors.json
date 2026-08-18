@@ -22,6 +22,7 @@
     },
     { "name": "Slime", "hex": "#B2FF51", "rgb": [178, 255, 81], "cmyk": [30, 0, 68, 0], "note": "sourced from stridekick.com's primary button; not printed on the swatch sheet. CMYK computed from RGB (no press-checked value or PMS match available)",
       "tints": [
+        { "label": "Slime WCAG", "hex": "#617F35" },
         { "pct": 80, "hex": "#CCFB85" },
         { "pct": 60, "hex": "#D6FA9F" },
         { "pct": 40, "hex": "#E0F8BA" },
@@ -30,6 +31,7 @@
     },
     { "name": "Pickle", "hex": "#43C450", "rgb": [67, 196, 80], "cmyk": [63, 0, 100, 0], "pms": "3529",
       "tints": [
+        { "label": "Pickle WCAG", "hex": "#428636" },
         { "pct": 80, "hex": "#8FD18A" },
         { "pct": 60, "hex": "#A9DAA7" },
         { "pct": 40, "hex": "#C7E5C6" },
@@ -38,6 +40,7 @@
     },
     { "name": "Baja Blast", "hex": "#4ED5D5", "rgb": [78, 213, 213], "cmyk": [60, 0, 20, 0], "pms": "2227",
       "tints": [
+        { "label": "Baja Blast WCAG", "hex": "#4B9A9B" },
         { "pct": 80, "hex": "#8BD9DA" },
         { "pct": 60, "hex": "#A3E0E1" },
         { "pct": 40, "hex": "#BDE6E7" },
@@ -46,6 +49,7 @@
     },
     { "name": "Smurf", "hex": "#0094FF", "rgb": [0, 148, 255], "cmyk": [65, 0, 3, 0], "pms": "2985",
       "tints": [
+        { "label": "Smurf WCAG", "hex": "#3376CA" },
         { "pct": 80, "hex": "#67B0F6" },
         { "pct": 60, "hex": "#A0CCF5" },
         { "pct": 40, "hex": "#B4D6F5" },
@@ -54,6 +58,7 @@
     },
     { "name": "Blueberry", "hex": "#3449BA", "rgb": [52, 73, 186], "cmyk": [87, 77, 0, 0], "pms": "2386",
       "tints": [
+        { "label": "Blueberry WCAG", "hex": "#3848B3" },
         { "pct": 80, "hex": "#606DC2" },
         { "pct": 60, "hex": "#8792D1" },
         { "pct": 40, "hex": "#A9B0D9" },
@@ -62,6 +67,7 @@
     },
     { "name": "Grimace", "hex": "#660BA7", "rgb": [102, 11, 167], "cmyk": [78, 100, 2, 8], "pms": "2090",
       "tints": [
+        { "label": "Grimace WCAG", "hex": "#5D15A1" },
         { "pct": 80, "hex": "#7A3EB1" },
         { "pct": 60, "hex": "#976BC1" },
         { "pct": 40, "hex": "#B698D2" },
@@ -70,6 +76,7 @@
     },
     { "name": "Ruby", "hex": "#E81957", "rgb": [232, 25, 87], "cmyk": [2, 94, 5, 0], "pms": "Rubine Red",
       "tints": [
+        { "label": "Ruby WCAG", "hex": "#D03357" },
         { "pct": 80, "hex": "#D95278" },
         { "pct": 60, "hex": "#DD7896" },
         { "pct": 40, "hex": "#E8B6C5" },
@@ -78,6 +85,7 @@
     },
     { "name": "Hello Kitty", "hex": "#FFA0D7", "rgb": [255, 160, 215], "cmyk": [3, 35, 0, 0], "pms": "672",
       "tints": [
+        { "label": "Hello Kitty WCAG", "hex": "#A85889" },
         { "pct": 80, "hex": "#F2BDDE" },
         { "pct": 60, "hex": "#F2CCE4" },
         { "pct": 40, "hex": "#F4DFEC" },
@@ -86,6 +94,7 @@
     },
     { "name": "Peach", "hex": "#FC9A71", "rgb": [252, 154, 113], "cmyk": [1, 22, 32, 0], "pms": "474",
       "tints": [
+        { "label": "Terracotta", "hex": "#C8501C" },
         { "pct": 80, "hex": "#F0B091" },
         { "pct": 60, "hex": "#F0C1AA" },
         { "pct": 40, "hex": "#F2D3C2" },
@@ -95,6 +104,7 @@
     { "name": "Terracotta", "hex": "#C8501C", "rgb": [200, 80, 28], "cmyk": [5, 54, 95, 8], "pms": "1525" },
     { "name": "Butter", "hex": "#FFDB1E", "rgb": [255, 219, 30], "cmyk": [0, 14, 88, 0], "note": "sourced from stridekick.com's yellow accent; not printed on the swatch sheet. CMYK computed from RGB (no press-checked value or PMS match available)",
       "tints": [
+        { "label": "Butter WCAG", "hex": "#837022" },
         { "pct": 80, "hex": "#F8E165" },
         { "pct": 60, "hex": "#F7E684" },
         { "pct": 40, "hex": "#F7EBA8" },
