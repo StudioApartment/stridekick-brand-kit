@@ -7,9 +7,47 @@
   const headerLogo = document.getElementById('header-logo');
   const headerLogoFallback = document.getElementById('header-logo-fallback');
 
-  const [manifest, colors] = await Promise.all([loadManifest(), loadColors()]);
-  render(manifest.root, colors);
-  setHeaderLogo(manifest.root);
+  const CACHE_KEY = 'brandKitManifestCache';
+
+  function readCache() {
+    try {
+      const raw = localStorage.getItem(CACHE_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function writeCache(manifest) {
+    try {
+      localStorage.setItem(CACHE_KEY, JSON.stringify(manifest));
+    } catch (e) { /* storage unavailable/full — not worth failing over */ }
+  }
+
+  const colorsPromise = loadColors();
+  const cached = readCache();
+
+  // Show cached data immediately (no spinner, no wait) while a fresh copy
+  // loads in the background. First-ever visit has nothing cached yet, so
+  // it shows a spinner instead of the plain "Loading…" text.
+  if (cached) {
+    render(cached.root, await colorsPromise);
+    setHeaderLogo(cached.root);
+  } else {
+    content.innerHTML = '<div class="loading-spinner" aria-label="Loading brand kit"></div>';
+  }
+
+  const { manifest, isLive } = await loadManifest();
+  const colors = await colorsPromise;
+  const manifestChanged = !cached || JSON.stringify(manifest) !== JSON.stringify(cached);
+  if (manifestChanged) {
+    render(manifest.root, colors);
+    setHeaderLogo(manifest.root);
+  }
+  // Only cache real data (live endpoint or a committed manifest.json) —
+  // caching the bundled sample fallback would make a slow/offline visit
+  // permanently stick with placeholder content on the next load.
+  if (isLive) writeCache(manifest);
 
   async function loadColors() {
     try {
@@ -31,7 +69,7 @@
         const timeout = setTimeout(() => controller.abort(), 15000);
         const res = await fetch(liveUrl, { cache: 'no-store', signal: controller.signal });
         clearTimeout(timeout);
-        if (res.ok) return await res.json();
+        if (res.ok) return { manifest: await res.json(), isLive: true };
         console.warn('manifestUrl responded but not OK, falling back:', res.status);
       } catch (e) {
         console.warn('manifestUrl fetch failed or timed out, falling back:', e);
@@ -41,11 +79,11 @@
     //    GitHub Actions sync workflow, if you're using that instead).
     try {
       const res = await fetch('data/manifest.json', { cache: 'no-store' });
-      if (res.ok) return await res.json();
+      if (res.ok) return { manifest: await res.json(), isLive: true };
     } catch (e) { /* fall through */ }
     // 3. Bundled sample data, so the site never shows a blank page.
     const res = await fetch('data/manifest.sample.json');
-    return await res.json();
+    return { manifest: await res.json(), isLive: false };
   }
 
   function slugify(name) {
