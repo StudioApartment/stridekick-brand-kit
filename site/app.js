@@ -113,7 +113,7 @@
     const card = document.createElement('div');
     card.className = 'card';
     card.innerHTML = `
-      <div class="card-thumb">${file.thumbnailUrl ? `<img loading="lazy" src="${file.thumbnailUrl}" alt="">` : ''}</div>
+      <div class="card-thumb">${file.thumbnailUrl ? `<img loading="lazy" src="${file.thumbnailUrl}" alt="" referrerpolicy="no-referrer">` : ''}</div>
       <div class="card-body">
         <div class="card-name" title="${file.name}">${file.name}</div>
         <div class="card-kind">${kindLabel(file.kind)}</div>
@@ -125,11 +125,11 @@
   function openModal(file) {
     let preview = '';
     if (file.kind === 'image') {
-      preview = `<img src="${file.thumbnailUrl}" alt="${file.name}">`;
+      preview = `<img src="${file.thumbnailUrl}" alt="${file.name}" referrerpolicy="no-referrer">`;
     } else if (file.kind === 'video') {
       preview = `<iframe src="${file.viewUrl}" allow="autoplay" width="640" height="480" frameborder="0"></iframe>`;
     } else {
-      preview = `<div class="card-thumb"><img src="${file.thumbnailUrl}" alt=""></div>`;
+      preview = `<div class="card-thumb"><img src="${file.thumbnailUrl}" alt="" referrerpolicy="no-referrer"></div>`;
     }
     modalContent.innerHTML = `
       <h3>${file.name}</h3>
