@@ -98,9 +98,10 @@
         { "pct": 80, "hex": "#F0B091" },
         { "pct": 60, "hex": "#F0C1AA" },
         { "pct": 40, "hex": "#F2D3C2" },
-        { "pct": 20, "hex": "#F3EAE6", "label": "Peach Fuzz" }
+        { "pct": 20, "hex": "#F3EAE6" }
       ]
     },
+    { "name": "Peach Fuzz", "hex": "#F3EAE6", "rgb": [243, 234, 230], "cmyk": [0, 4, 5, 5], "note": "Peach's lightest tint, given its own name on the swatch sheet; sampled from the PDF's pixels — CMYK computed from RGB" },
     { "name": "Terracotta", "hex": "#C8501C", "rgb": [200, 80, 28], "cmyk": [5, 54, 95, 8], "pms": "1525" },
     { "name": "Butter", "hex": "#FFDB1E", "rgb": [255, 219, 30], "cmyk": [0, 14, 88, 0], "note": "sourced from stridekick.com's yellow accent; not printed on the swatch sheet. CMYK computed from RGB (no press-checked value or PMS match available)",
       "tints": [
@@ -108,9 +109,10 @@
         { "pct": 80, "hex": "#F8E165" },
         { "pct": 60, "hex": "#F7E684" },
         { "pct": 40, "hex": "#F7EBA8" },
-        { "pct": 20, "hex": "#F6F0CE", "label": "Margarine" }
+        { "pct": 20, "hex": "#F6F0CE" }
       ]
     },
+    { "name": "Margarine", "hex": "#F6F0CE", "rgb": [246, 240, 206], "cmyk": [0, 2, 16, 4], "note": "Butter's lightest tint, given its own name on the swatch sheet; sampled from the PDF's pixels — CMYK computed from RGB" },
     { "name": "Manilla Folder", "hex": "#F8E0A1", "rgb": [248, 224, 161], "cmyk": [0, 6, 32, 0], "pms": "7401" }
   ]
 }
