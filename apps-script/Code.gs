@@ -36,9 +36,25 @@ const ROOT_FOLDER_ID = '1y3qv2wvSBCGJPjCXHmnXnsxN8teLOjz8';
 const DONT_PATTERN = /don'?t|not to do|no'?s\b|what not/i;
 
 function doGet(e) {
+  if (e && e.parameter && e.parameter.zip) {
+    return buildZipResponse(e.parameter.zip, e.parameter.name);
+  }
   const manifest = buildManifest();
   return ContentService
     .createTextOutput(JSON.stringify(manifest))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+// Bundles a small set of Drive files (by comma-separated ID) into a zip
+// and returns it base64-encoded in JSON — ContentService can't stream
+// binary responses directly, so the client decodes and downloads it.
+function buildZipResponse(idsParam, name) {
+  const ids = idsParam.split(',').map(function (s) { return s.trim(); }).filter(Boolean);
+  const blobs = ids.map(function (id) { return DriveApp.getFileById(id).getBlob(); });
+  const zipBlob = Utilities.zip(blobs, (name || 'logo-files') + '.zip');
+  const base64 = Utilities.base64Encode(zipBlob.getBytes());
+  return ContentService
+    .createTextOutput(JSON.stringify({ zipBase64: base64, filename: zipBlob.getName() }))
     .setMimeType(ContentService.MimeType.JSON);
 }
 
@@ -73,6 +89,7 @@ function toFileEntry(file) {
   const id = file.getId();
   const mimeType = file.getMimeType();
   return {
+    id: id,
     name: file.getName(),
     kind: classifyKind(mimeType),
     mimeType: mimeType,

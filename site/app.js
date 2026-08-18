@@ -186,7 +186,55 @@
         <div class="logo-name">${label}</div>
         <div class="format-links">${formatLinks}</div>
       </div>`;
+
+    // Clicking the card itself (not a specific PNG/SVG link) downloads
+    // both formats bundled as one zip.
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('.format-link')) return;
+      downloadLogoZip(group, label);
+    });
     return card;
+  }
+
+  function base64ToBlob(base64, mimeType) {
+    const bytes = atob(base64);
+    const array = new Uint8Array(bytes.length);
+    for (let i = 0; i < bytes.length; i++) array[i] = bytes.charCodeAt(i);
+    return new Blob([array], { type: mimeType });
+  }
+
+  function triggerDownload(blob, filename) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  async function downloadLogoZip(group, label) {
+    const ids = group.files.map((f) => f.id).filter(Boolean);
+    const liveUrl = window.BRAND_KIT_CONFIG && window.BRAND_KIT_CONFIG.manifestUrl;
+    // Zip bundling needs the Apps Script endpoint and real Drive file IDs
+    // (the bundled sample data has neither) — fall back to just opening
+    // one file's Drive page rather than failing silently.
+    if (!liveUrl || ids.length < 2) {
+      const fallback = group.files[0];
+      if (fallback) window.open(fallback.viewUrl, '_blank', 'noopener');
+      return;
+    }
+    try {
+      const zipUrl = `${liveUrl}${liveUrl.includes('?') ? '&' : '?'}zip=${ids.join(',')}&name=${encodeURIComponent(label)}`;
+      const res = await fetch(zipUrl, { cache: 'no-store' });
+      if (!res.ok) throw new Error('zip endpoint responded ' + res.status);
+      const { zipBase64, filename } = await res.json();
+      triggerDownload(base64ToBlob(zipBase64, 'application/zip'), filename || `${label}.zip`);
+    } catch (e) {
+      console.warn('Zip download failed, opening file in Drive instead:', e);
+      window.open(group.files[0].viewUrl, '_blank', 'noopener');
+    }
   }
 
   function fileCard(file) {
