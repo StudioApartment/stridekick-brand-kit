@@ -238,7 +238,6 @@ body {
   background: var(--panel);
   border: none;
   border-radius: var(--radius);
-  overflow: hidden;
   cursor: pointer;
   padding: 0;
   text-align: left;
@@ -256,19 +255,42 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  border-radius: var(--radius) var(--radius) 0 0;
+  overflow: hidden;
 }
 
 .color-name { font-weight: 700; font-size: 14px; padding: 14px 14px 0; }
 
 .tint-row { display: flex; margin-top: auto; }
 .tint-chip {
+  position: relative;
   flex: 1;
   height: 20px;
   border-radius: 0;
   cursor: pointer;
+  overflow: visible;
 }
+.tint-chip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-6px);
+  background: var(--ink);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+  padding: 4px 8px;
+  border-radius: 6px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.1s;
+  z-index: 20;
+}
+.tint-chip:hover::after { opacity: 1; }
 
-.color-body { padding: 10px 12px; }
+.color-body { border-radius: 0 0 var(--radius) var(--radius); padding: 10px 12px; }
 .color-code {
   font-size: 12px;
   color: var(--muted);

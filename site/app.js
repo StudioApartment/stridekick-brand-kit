@@ -378,7 +378,7 @@
     if (!color.tints || !color.tints.length) return '';
     const chips = color.tints.map((t) => {
       const label = t.label || `${color.name} ${t.pct}%`;
-      return `<div class="tint-chip" style="background:${t.hex}" data-hex="${t.hex}" title="${label} — ${t.hex.toUpperCase()} (click to copy)"></div>`;
+      return `<div class="tint-chip" style="background:${t.hex}" data-hex="${t.hex}" data-tooltip="${label} — ${t.hex.toUpperCase()}" aria-label="${label}, ${t.hex.toUpperCase()}, click to copy"></div>`;
     }).join('');
     return `<div class="tint-row">${chips}</div>`;
   }
