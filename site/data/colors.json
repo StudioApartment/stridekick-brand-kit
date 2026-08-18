@@ -1,20 +1,106 @@
 {
   "generatedAt": "2026-08-18T00:00:00.000Z",
-  "source": "Swatches.pdf + stridekick.com",
+  "source": "Swatches.pdf (base colors from printed values; tint shades sampled directly from the PDF's swatch pixels) + stridekick.com",
   "colors": [
-    { "name": "Midnight Blue", "hex": "#171E43", "rgb": [23, 30, 67], "tints": [85, 70, 60, 40, 20, 10, 5], "note": "sourced from stridekick.com body text color; not printed on the swatch sheet" },
-    { "name": "White", "hex": "#FFFFFF", "rgb": [255, 255, 255] },
-    { "name": "Slime", "hex": "#B2FF51", "rgb": [178, 255, 81], "tints": [80, 60, 40, 20], "note": "sourced from stridekick.com's primary button; not printed on the swatch sheet" },
-    { "name": "Pickle", "hex": "#43C450", "rgb": [67, 196, 80], "cmyk": [63, 0, 100, 0], "pms": "3529", "tints": [80, 60, 40, 20] },
-    { "name": "Baja Blast", "hex": "#4ED5D5", "rgb": [78, 213, 213], "cmyk": [60, 0, 20, 0], "pms": "2227", "tints": [80, 60, 40, 20] },
-    { "name": "Smurf", "hex": "#0094FF", "rgb": [0, 148, 255], "cmyk": [65, 0, 3, 0], "pms": "2985", "tints": [80, 60, 40, 20] },
-    { "name": "Blueberry", "hex": "#3449BA", "rgb": [52, 73, 186], "cmyk": [87, 77, 0, 0], "pms": "2386", "tints": [80, 60, 40, 20] },
-    { "name": "Grimace", "hex": "#660BA7", "rgb": [102, 11, 167], "cmyk": [78, 100, 2, 8], "pms": "2090", "tints": [80, 60, 40, 20] },
-    { "name": "Ruby", "hex": "#E81957", "rgb": [232, 25, 87], "cmyk": [2, 94, 5, 0], "pms": "Rubine Red", "tints": [80, 60, 40, 20] },
-    { "name": "Hello Kitty", "hex": "#FFA0D7", "rgb": [255, 160, 215], "cmyk": [3, 35, 0, 0], "pms": "672", "tints": [80, 60, 40, 20] },
-    { "name": "Peach", "hex": "#FC9A71", "rgb": [252, 154, 113], "cmyk": [1, 22, 32, 0], "pms": "474", "tints": [80, 60, 40, 20] },
-    { "name": "Terracotta", "hex": "#C8501C", "rgb": [200, 80, 28], "cmyk": [5, 54, 95, 8], "pms": "1525", "tints": [80, 60, 40, 20] },
-    { "name": "Butter", "hex": "#FFDB1E", "rgb": [255, 219, 30], "tints": [80, 60, 40, 20], "note": "sourced from stridekick.com's yellow accent; not printed on the swatch sheet" },
+    { "name": "Midnight Blue", "hex": "#171E43", "rgb": [23, 30, 67], "note": "sourced from stridekick.com body text color; not printed on the swatch sheet",
+      "tints": [
+        { "pct": 85, "hex": "#3A3F5C" },
+        { "pct": 70, "hex": "#5B5F77" },
+        { "pct": 60, "hex": "#717488" },
+        { "pct": 40, "hex": "#9D9FAD" },
+        { "pct": 20, "hex": "#C9CAD0" },
+        { "pct": 10, "hex": "#DEDFE3" },
+        { "pct": 5, "hex": "#EAEBEC" }
+      ]
+    },
+    { "name": "White", "hex": "#FFFFFF", "rgb": [255, 255, 255],
+      "tints": [
+        { "pct": 75, "hex": "#C3C5CD" },
+        { "pct": 50, "hex": "#898C9D" },
+        { "pct": 25, "hex": "#50546F" }
+      ]
+    },
+    { "name": "Slime", "hex": "#B2FF51", "rgb": [178, 255, 81], "note": "sourced from stridekick.com's primary button; not printed on the swatch sheet",
+      "tints": [
+        { "pct": 80, "hex": "#CCFB85" },
+        { "pct": 60, "hex": "#D6FA9F" },
+        { "pct": 40, "hex": "#E0F8BA" },
+        { "pct": 20, "hex": "#EBF7D7" }
+      ]
+    },
+    { "name": "Pickle", "hex": "#43C450", "rgb": [67, 196, 80], "cmyk": [63, 0, 100, 0], "pms": "3529",
+      "tints": [
+        { "pct": 80, "hex": "#8FD18A" },
+        { "pct": 60, "hex": "#A9DAA7" },
+        { "pct": 40, "hex": "#C7E5C6" },
+        { "pct": 20, "hex": "#DEECDD" }
+      ]
+    },
+    { "name": "Baja Blast", "hex": "#4ED5D5", "rgb": [78, 213, 213], "cmyk": [60, 0, 20, 0], "pms": "2227",
+      "tints": [
+        { "pct": 80, "hex": "#8BD9DA" },
+        { "pct": 60, "hex": "#A3E0E1" },
+        { "pct": 40, "hex": "#BDE6E7" },
+        { "pct": 20, "hex": "#D9EEEF" }
+      ]
+    },
+    { "name": "Smurf", "hex": "#0094FF", "rgb": [0, 148, 255], "cmyk": [65, 0, 3, 0], "pms": "2985",
+      "tints": [
+        { "pct": 80, "hex": "#67B0F6" },
+        { "pct": 60, "hex": "#A0CCF5" },
+        { "pct": 40, "hex": "#B4D6F5" },
+        { "pct": 20, "hex": "#DFEAF5" }
+      ]
+    },
+    { "name": "Blueberry", "hex": "#3449BA", "rgb": [52, 73, 186], "cmyk": [87, 77, 0, 0], "pms": "2386",
+      "tints": [
+        { "pct": 80, "hex": "#606DC2" },
+        { "pct": 60, "hex": "#8792D1" },
+        { "pct": 40, "hex": "#A9B0D9" },
+        { "pct": 20, "hex": "#CFD3E7" }
+      ]
+    },
+    { "name": "Grimace", "hex": "#660BA7", "rgb": [102, 11, 167], "cmyk": [78, 100, 2, 8], "pms": "2090",
+      "tints": [
+        { "pct": 80, "hex": "#7A3EB1" },
+        { "pct": 60, "hex": "#976BC1" },
+        { "pct": 40, "hex": "#B698D2" },
+        { "pct": 20, "hex": "#D5C7E3" }
+      ]
+    },
+    { "name": "Ruby", "hex": "#E81957", "rgb": [232, 25, 87], "cmyk": [2, 94, 5, 0], "pms": "Rubine Red",
+      "tints": [
+        { "pct": 80, "hex": "#D95278" },
+        { "pct": 60, "hex": "#DD7896" },
+        { "pct": 40, "hex": "#E8B6C5" },
+        { "pct": 20, "hex": "#EED5DD" }
+      ]
+    },
+    { "name": "Hello Kitty", "hex": "#FFA0D7", "rgb": [255, 160, 215], "cmyk": [3, 35, 0, 0], "pms": "672",
+      "tints": [
+        { "pct": 80, "hex": "#F2BDDE" },
+        { "pct": 60, "hex": "#F2CCE4" },
+        { "pct": 40, "hex": "#F4DFEC" },
+        { "pct": 20, "hex": "#F4E8F0" }
+      ]
+    },
+    { "name": "Peach", "hex": "#FC9A71", "rgb": [252, 154, 113], "cmyk": [1, 22, 32, 0], "pms": "474",
+      "tints": [
+        { "pct": 80, "hex": "#F0B091" },
+        { "pct": 60, "hex": "#F0C1AA" },
+        { "pct": 40, "hex": "#F2D3C2" },
+        { "pct": 20, "hex": "#F3EAE6", "label": "Peach Fuzz" }
+      ]
+    },
+    { "name": "Terracotta", "hex": "#C8501C", "rgb": [200, 80, 28], "cmyk": [5, 54, 95, 8], "pms": "1525" },
+    { "name": "Butter", "hex": "#FFDB1E", "rgb": [255, 219, 30], "note": "sourced from stridekick.com's yellow accent; not printed on the swatch sheet",
+      "tints": [
+        { "pct": 80, "hex": "#F8E165" },
+        { "pct": 60, "hex": "#F7E684" },
+        { "pct": 40, "hex": "#F7EBA8" },
+        { "pct": 20, "hex": "#F6F0CE", "label": "Margarine" }
+      ]
+    },
     { "name": "Manilla Folder", "hex": "#F8E0A1", "rgb": [248, 224, 161], "cmyk": [0, 6, 32, 0], "pms": "7401" }
   ]
 }

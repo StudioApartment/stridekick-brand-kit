@@ -191,22 +191,13 @@
     return luminance > 0.6 ? '#171E43' : '#ffffff';
   }
 
-  // Mixes a hex color toward white by `pct` — a 100% tint is the color
-  // itself, lower percentages are progressively lighter.
-  function tint(hex, pct) {
-    const r = parseInt(hex.slice(1, 3), 16);
-    const g = parseInt(hex.slice(3, 5), 16);
-    const b = parseInt(hex.slice(5, 7), 16);
-    const mix = (c) => Math.round(c * (pct / 100) + 255 * (1 - pct / 100));
-    const toHex = (c) => c.toString(16).padStart(2, '0');
-    return `#${toHex(mix(r))}${toHex(mix(g))}${toHex(mix(b))}`;
-  }
-
+  // Tint shades are sampled directly from the swatch sheet's pixels
+  // (see site/data/colors.json), not computed — this just renders them.
   function tintRow(color) {
     if (!color.tints || !color.tints.length) return '';
-    const chips = color.tints.map((pct) => {
-      const tintHex = tint(color.hex, pct);
-      return `<div class="tint-chip" style="background:${tintHex}" data-hex="${tintHex}" title="${color.name} ${pct}% — ${tintHex.toUpperCase()} (click to copy)"></div>`;
+    const chips = color.tints.map((t) => {
+      const label = t.label || `${color.name} ${t.pct}%`;
+      return `<div class="tint-chip" style="background:${t.hex}" data-hex="${t.hex}" title="${label} — ${t.hex.toUpperCase()} (click to copy)"></div>`;
     }).join('');
     return `<div class="tint-row">${chips}</div>`;
   }
@@ -224,9 +215,14 @@
       color.pms ? `PMS ${color.pms}` : '',
     ].filter(Boolean);
     card.innerHTML = `
-      <div class="color-name">${color.name}</div>
-      ${tintRow(color)}`;
-    card.title = `${color.name} — ${codeLines.join(' · ')} (click to copy hex)`;
+      <div class="color-swatch">
+        <div class="color-name">${color.name}</div>
+        ${tintRow(color)}
+      </div>
+      <div class="color-body">
+        ${codeLines.map((line) => `<div class="color-code">${line}</div>`).join('')}
+      </div>`;
+    card.title = 'Click to copy hex';
     card.addEventListener('click', () => {
       navigator.clipboard?.writeText(color.hex).catch(() => {});
       card.classList.add('copied');
