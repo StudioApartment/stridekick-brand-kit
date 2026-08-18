@@ -7,9 +7,17 @@
   const headerLogo = document.getElementById('header-logo');
   const headerLogoFallback = document.getElementById('header-logo-fallback');
 
-  const manifest = await loadManifest();
-  render(manifest.root);
+  const [manifest, colors] = await Promise.all([loadManifest(), loadColors()]);
+  render(manifest.root, colors);
   setHeaderLogo(manifest.root);
+
+  async function loadColors() {
+    try {
+      const res = await fetch('data/colors.json', { cache: 'no-store' });
+      if (res.ok) return (await res.json()).colors || [];
+    } catch (e) { /* no colors.json yet */ }
+    return [];
+  }
 
   async function loadManifest() {
     // 1. Live Apps Script endpoint (set in config.js) — always current.
@@ -155,6 +163,66 @@
     return wrap;
   }
 
+  function hexToRgbString(rgb) {
+    return rgb ? `RGB ${rgb.join('/')}` : '';
+  }
+
+  function readableTextColor(hex) {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+    return luminance > 0.6 ? '#171E43' : '#ffffff';
+  }
+
+  function colorCard(color) {
+    const card = document.createElement('button');
+    card.type = 'button';
+    card.className = 'color-card';
+    card.style.setProperty('--swatch', color.hex);
+    card.style.setProperty('--swatch-text', readableTextColor(color.hex));
+    const codeLines = [
+      color.hex.toUpperCase(),
+      hexToRgbString(color.rgb),
+      color.cmyk ? `CMYK ${color.cmyk.join('/')}` : '',
+      color.pms ? `PMS ${color.pms}` : '',
+    ].filter(Boolean);
+    card.innerHTML = `
+      <div class="color-swatch">${color.name}</div>
+      <div class="color-body">
+        ${codeLines.map((line) => `<div class="color-code">${line}</div>`).join('')}
+      </div>`;
+    card.title = 'Click to copy hex';
+    card.addEventListener('click', () => {
+      navigator.clipboard?.writeText(color.hex).catch(() => {});
+      card.classList.add('copied');
+      setTimeout(() => card.classList.remove('copied'), 900);
+    });
+    return card;
+  }
+
+  function buildColorsSection(colors) {
+    const section = document.createElement('section');
+    section.className = 'section';
+    section.id = 'colors';
+
+    const h2 = document.createElement('h2');
+    h2.textContent = 'Colors';
+    section.appendChild(h2);
+
+    const p = document.createElement('p');
+    p.className = 'section-desc';
+    p.textContent = 'Click a swatch to copy its hex code.';
+    section.appendChild(p);
+
+    const grid = document.createElement('div');
+    grid.className = 'color-grid';
+    colors.forEach((c) => grid.appendChild(colorCard(c)));
+    section.appendChild(grid);
+
+    return section;
+  }
+
   function navLink(href, text, extraClass) {
     const a = document.createElement('a');
     a.href = href;
@@ -240,9 +308,14 @@
     return buildSection(live, slug);
   }
 
-  function render(root) {
+  function render(root, colors) {
     content.innerHTML = '';
     sidenav.innerHTML = '';
+
+    if (colors && colors.length) {
+      sidenav.appendChild(navLink('#colors', 'Colors'));
+      content.appendChild(buildColorsSection(colors));
+    }
 
     const liveFolders = root.folders || [];
     const matchedLiveFolders = new Set();
