@@ -2,7 +2,7 @@
   "generatedAt": "2026-08-18T00:00:00.000Z",
   "source": "Swatches.pdf (base colors from printed values; tint shades sampled directly from the PDF's swatch pixels) + stridekick.com",
   "colors": [
-    { "name": "Midnight Blue", "hex": "#171E43", "rgb": [23, 30, 67], "note": "sourced from stridekick.com body text color; not printed on the swatch sheet",
+    { "name": "Midnight Blue", "hex": "#171E43", "rgb": [23, 30, 67], "cmyk": [66, 55, 0, 74], "note": "sourced from stridekick.com body text color; not printed on the swatch sheet. CMYK computed from RGB (no press-checked value or PMS match available)",
       "tints": [
         { "pct": 85, "hex": "#3A3F5C" },
         { "pct": 70, "hex": "#5B5F77" },
@@ -13,14 +13,14 @@
         { "pct": 5, "hex": "#EAEBEC" }
       ]
     },
-    { "name": "White", "hex": "#FFFFFF", "rgb": [255, 255, 255],
+    { "name": "White", "hex": "#FFFFFF", "rgb": [255, 255, 255], "cmyk": [0, 0, 0, 0],
       "tints": [
         { "pct": 75, "hex": "#C3C5CD" },
         { "pct": 50, "hex": "#898C9D" },
         { "pct": 25, "hex": "#50546F" }
       ]
     },
-    { "name": "Slime", "hex": "#B2FF51", "rgb": [178, 255, 81], "note": "sourced from stridekick.com's primary button; not printed on the swatch sheet",
+    { "name": "Slime", "hex": "#B2FF51", "rgb": [178, 255, 81], "cmyk": [30, 0, 68, 0], "note": "sourced from stridekick.com's primary button; not printed on the swatch sheet. CMYK computed from RGB (no press-checked value or PMS match available)",
       "tints": [
         { "pct": 80, "hex": "#CCFB85" },
         { "pct": 60, "hex": "#D6FA9F" },
@@ -93,7 +93,7 @@
       ]
     },
     { "name": "Terracotta", "hex": "#C8501C", "rgb": [200, 80, 28], "cmyk": [5, 54, 95, 8], "pms": "1525" },
-    { "name": "Butter", "hex": "#FFDB1E", "rgb": [255, 219, 30], "note": "sourced from stridekick.com's yellow accent; not printed on the swatch sheet",
+    { "name": "Butter", "hex": "#FFDB1E", "rgb": [255, 219, 30], "cmyk": [0, 14, 88, 0], "note": "sourced from stridekick.com's yellow accent; not printed on the swatch sheet. CMYK computed from RGB (no press-checked value or PMS match available)",
       "tints": [
         { "pct": 80, "hex": "#F8E165" },
         { "pct": 60, "hex": "#F7E684" },

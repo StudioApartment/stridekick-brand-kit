@@ -15,9 +15,10 @@ window.PLANNED_TAXONOMY = [
   {
     name: 'Logos & Marks',
     children: [
-      { name: 'Symbol' },
       { name: 'Logotype', children: [{ name: 'Vertical' }, { name: 'Horizontal' }] },
+      { name: 'Symbol' },
       { name: 'Pro' },
+      { name: 'What Not To Do' },
     ],
   },
   {

@@ -4,8 +4,8 @@
   const searchInput = document.getElementById('search');
   const modal = document.getElementById('modal');
   const modalContent = document.getElementById('modal-content');
-  const headerLogo = document.getElementById('header-logo');
-  const headerLogoFallback = document.getElementById('header-logo-fallback');
+  let colorLibrary = [];
+  const DONT_PATTERN = /don'?t|not to do|no's\b|what not/i;
 
   const CACHE_KEY = 'brandKitManifestCache';
 
@@ -32,7 +32,6 @@
   // it shows a spinner instead of the plain "Loading…" text.
   if (cached) {
     render(cached.root, await colorsPromise);
-    setHeaderLogo(cached.root);
   } else {
     content.innerHTML = '<div class="loading-spinner" aria-label="Loading brand kit"></div>';
   }
@@ -42,7 +41,6 @@
   const manifestChanged = !cached || JSON.stringify(manifest) !== JSON.stringify(cached);
   if (manifestChanged) {
     render(manifest.root, colors);
-    setHeaderLogo(manifest.root);
   }
   // Only cache real data (live endpoint or a committed manifest.json) —
   // caching the bundled sample fallback would make a slow/offline visit
@@ -99,52 +97,87 @@
     return (folders || []).find((f) => normalize(f.name) === target);
   }
 
-  // Finds a header logo, preferring the horizontal Grimace (purple) mark.
-  // Handles both a flat "Logos & Marks" folder (files directly inside)
-  // and the nested Logos > Logotype > Horizontal structure.
-  function findHeaderLogoFile(root) {
-    const logos = findMatch(root.folders, 'Logos & Marks') || findMatch(root.folders, 'Logos');
-    if (!logos) return null;
-
-    let pool = logos.files || [];
-    if (!pool.length) {
-      const logotype = findMatch(logos.folders, 'Logotype');
-      const horizontal = logotype && findMatch(logotype.folders, 'Horizontal');
-      pool = (horizontal && horizontal.files && horizontal.files.length)
-        ? horizontal.files
-        : (logotype && logotype.files) || [];
-    }
-    if (!pool.length) return null;
-
-    const horizontalFiles = pool.filter((f) => /horizontal/i.test(f.name));
-    const candidates = horizontalFiles.length ? horizontalFiles : pool;
-    return candidates.find((f) => /grimace|purple/i.test(f.name) && /\.svg$/i.test(f.name))
-      || candidates.find((f) => /grimace|purple/i.test(f.name))
-      || candidates[0];
-  }
-
-  function setHeaderLogo(root) {
-    const file = findHeaderLogoFile(root);
-    if (file && file.thumbnailUrl) {
-      // If the image fails to load for any reason (deleted file, a
-      // network hiccup), fall back to the text mark instead of leaving
-      // a broken-image icon in the header.
-      headerLogo.onerror = () => {
-        headerLogo.hidden = true;
-        headerLogoFallback.hidden = false;
-      };
-      headerLogo.alt = file.name;
-      headerLogo.src = file.thumbnailUrl;
-      headerLogo.hidden = false;
-      headerLogoFallback.hidden = true;
-    } else {
-      headerLogo.hidden = true;
-      headerLogoFallback.hidden = false;
-    }
-  }
-
   function kindLabel(kind) {
     return { image: 'Image', video: 'Video', pdf: 'PDF', folder: 'Folder', other: 'File' }[kind] || 'File';
+  }
+
+  function findColorHex(name) {
+    const match = colorLibrary.find((c) => c.name.toLowerCase() === name.toLowerCase());
+    return match && match.hex;
+  }
+
+  function findTintHex(name, pct) {
+    const match = colorLibrary.find((c) => c.name.toLowerCase() === name.toLowerCase());
+    const tint = match && match.tints && match.tints.find((t) => t.pct === pct);
+    return (tint && tint.hex) || (match && match.hex);
+  }
+
+  // A few harmonizing backdrops per logo-ink color, so the cards for one
+  // color's variants (horizontal/vertical, png/svg) don't all look
+  // identical — cycled by each file's position within its family.
+  function logoBackdropPalette(fileName) {
+    if (/grimace/i.test(fileName)) {
+      return [findColorHex('Manilla Folder'), findTintHex('Peach', 20), findTintHex('Hello Kitty', 20), findTintHex('Baja Blast', 20)];
+    }
+    if (/midnight/i.test(fileName)) {
+      return [findColorHex('Butter'), findTintHex('Butter', 80), findColorHex('Slime'), findTintHex('Slime', 60)];
+    }
+    if (/white/i.test(fileName)) {
+      return [findColorHex('Grimace'), findColorHex('Blueberry'), findColorHex('Ruby'), findColorHex('Terracotta')];
+    }
+    return null;
+  }
+
+  function logoBackdrop(fileName, index) {
+    const palette = logoBackdropPalette(fileName);
+    return palette && palette.length ? palette[index % palette.length] : null;
+  }
+
+  // Groups Stridekick-{Color}-{Orientation}.{ext} files so the PNG and
+  // SVG of the same mark share one card instead of two separate ones.
+  function groupLogoFiles(files) {
+    const groups = [];
+    const byBase = new Map();
+    files.forEach((f) => {
+      const match = f.name.match(/^(.*)\.([^.]+)$/);
+      const base = match ? match[1] : f.name;
+      const ext = match ? match[2].toUpperCase() : '';
+      if (!byBase.has(base)) {
+        const group = { base, files: [] };
+        byBase.set(base, group);
+        groups.push(group);
+      }
+      byBase.get(base).files.push({ ...f, ext });
+    });
+    return groups;
+  }
+
+  function logoCard(group, index) {
+    const card = document.createElement('div');
+    card.className = 'card';
+    const primaryFile = group.files.find((f) => f.ext === 'SVG') || group.files[0];
+    const backdrop = logoBackdrop(group.base, index);
+    const thumbClass = 'card-thumb' + (/vertical/i.test(group.base) ? ' is-vertical' : '');
+    const thumbStyle = backdrop ? ` style="background:${backdrop}"` : '';
+
+    const parts = group.base.split('-').filter(Boolean);
+    const color = parts[1] || '';
+    const orientation = parts[2] || '';
+    const label = orientation && color ? `${orientation} - ${color}` : group.base;
+
+    const formatLinks = group.files
+      .slice()
+      .sort((a, b) => a.ext.localeCompare(b.ext))
+      .map((f) => `<a href="${f.downloadUrl}" target="_blank" rel="noopener" class="format-link">${f.ext}</a>`)
+      .join('');
+
+    card.innerHTML = `
+      <div class="${thumbClass}"${thumbStyle}>${primaryFile.thumbnailUrl ? `<img loading="lazy" src="${primaryFile.thumbnailUrl}" alt="" referrerpolicy="no-referrer">` : ''}</div>
+      <div class="card-body">
+        <div class="logo-name">${label}</div>
+        <div class="format-links">${formatLinks}</div>
+      </div>`;
+    return card;
   }
 
   function fileCard(file) {
@@ -183,6 +216,34 @@
     if (e.target.hasAttribute('data-close')) modal.hidden = true;
   });
 
+  // Groups Logotype's flat file list into one card per color+orientation
+  // (pairing each mark's PNG and SVG), cycling backdrops per-color-family
+  // so Grimace/Midnight/White each get their own harmonizing progression.
+  function logotypeSubsectionEl(name, parentSlug, files) {
+    const slug = `${parentSlug}-${slugify(name)}`;
+    const wrap = document.createElement('div');
+    wrap.className = 'subsection';
+    wrap.id = slug;
+
+    const h3 = document.createElement('h3');
+    h3.textContent = name;
+    wrap.appendChild(h3);
+
+    const groups = groupLogoFiles(files);
+    const familyCounts = {};
+    const grid = document.createElement('div');
+    grid.className = 'grid';
+    groups.forEach((g) => {
+      const familyKey = /grimace/i.test(g.base) ? 'grimace' : /midnight/i.test(g.base) ? 'midnight' : /white/i.test(g.base) ? 'white' : 'other';
+      const index = familyCounts[familyKey] || 0;
+      familyCounts[familyKey] = index + 1;
+      grid.appendChild(logoCard(g, index));
+    });
+    wrap.appendChild(grid);
+
+    return wrap;
+  }
+
   function subsectionEl(folder, parentSlug) {
     const slug = `${parentSlug}-${slugify(folder.name)}`;
     const wrap = document.createElement('div');
@@ -214,6 +275,28 @@
     }
 
     (folder.folders || []).forEach((sub) => wrap.appendChild(subsectionEl(sub, slug)));
+    return wrap;
+  }
+
+  // Placeholder subsection for a planned child that doesn't have a real
+  // Drive folder yet — gives its nav link somewhere to actually jump to,
+  // instead of leaving it disabled, for categories we want live early.
+  function placeholderSubsectionEl(name, parentSlug) {
+    const isDont = DONT_PATTERN.test(name);
+    const slug = `${parentSlug}-${slugify(name)}`;
+    const wrap = document.createElement('div');
+    wrap.className = 'subsection' + (isDont ? ' is-dont' : '');
+    wrap.id = slug;
+
+    const h3 = document.createElement('h3');
+    h3.textContent = (isDont ? '⚠ ' : '') + name;
+    wrap.appendChild(h3);
+
+    const note = document.createElement('p');
+    note.className = 'empty-note';
+    note.textContent = 'Coming soon — not added to Drive yet.';
+    wrap.appendChild(note);
+
     return wrap;
   }
 
@@ -291,8 +374,12 @@
 
     const grid = document.createElement('div');
     grid.className = 'color-grid';
+    grid.id = 'colors-swatches';
     colors.forEach((c) => grid.appendChild(colorCard(c)));
     section.appendChild(grid);
+
+    section.appendChild(placeholderSubsectionEl('Colors In Use', 'colors'));
+    section.appendChild(placeholderSubsectionEl('What Not To Do', 'colors'));
 
     return section;
   }
@@ -309,7 +396,7 @@
     const span = document.createElement('span');
     span.textContent = text;
     span.className = 'nav-disabled' + (extraClass ? ' ' + extraClass : '');
-    span.title = 'Not added to Drive yet';
+    span.title = 'Adding soon';
     return span;
   }
 
@@ -317,6 +404,7 @@
     const section = document.createElement('section');
     section.className = 'section';
     section.id = slug;
+    const isLogo = normalize(folder.name) === 'logos marks';
 
     const h2 = document.createElement('h2');
     h2.textContent = folder.name;
@@ -330,14 +418,30 @@
     }
 
     const files = folder.files || [];
-    if (files.length) {
-      const grid = document.createElement('div');
-      grid.className = 'grid';
-      files.forEach((f) => grid.appendChild(fileCard(f)));
-      section.appendChild(grid);
+
+    if (isLogo) {
+      // Logos & Marks is flat in Drive (no real subfolders) — route its
+      // files into the planned "Logotype" subsection instead of a bare
+      // top-level grid, and give the other planned children (Symbol, Pro,
+      // What Not To Do) a placeholder to jump to until they're real.
+      const planned = (window.PLANNED_TAXONOMY || []).find((p) => normalize(p.name) === 'logos marks');
+      (planned && planned.children || []).forEach((child) => {
+        if (normalize(child.name) === 'logotype') {
+          section.appendChild(logotypeSubsectionEl(child.name, slug, files));
+        } else {
+          section.appendChild(placeholderSubsectionEl(child.name, slug));
+        }
+      });
+    } else {
+      if (files.length) {
+        const grid = document.createElement('div');
+        grid.className = 'grid';
+        files.forEach((f) => grid.appendChild(fileCard(f)));
+        section.appendChild(grid);
+      }
+      (folder.folders || []).forEach((sub) => section.appendChild(subsectionEl(sub, slug)));
     }
 
-    (folder.folders || []).forEach((sub) => section.appendChild(subsectionEl(sub, slug)));
     return section;
   }
 
@@ -362,6 +466,10 @@
     matchedLiveFolders.add(live);
     group.appendChild(navLink(`#${slug}`, planned.name));
 
+    // Logos & Marks gets placeholder subsections (see buildSection) for
+    // any planned child not yet in Drive, so its nav links can jump to
+    // something instead of sitting disabled.
+    const isLogo = slug === 'logos-marks';
     const liveSubfolders = live.folders || [];
     const matchedSub = new Set();
     (planned.children || []).forEach((sub) => {
@@ -369,6 +477,8 @@
       const subSlug = `${slug}-${slugify(sub.name)}`;
       if (liveSub) {
         matchedSub.add(liveSub);
+        group.appendChild(navLink(`#${subSlug}`, sub.name, 'sub-link'));
+      } else if (isLogo) {
         group.appendChild(navLink(`#${subSlug}`, sub.name, 'sub-link'));
       } else {
         group.appendChild(navDisabled(sub.name, 'sub-link'));
@@ -389,17 +499,33 @@
   function render(root, colors) {
     content.innerHTML = '';
     sidenav.innerHTML = '';
-
-    if (colors && colors.length) {
-      sidenav.appendChild(navLink('#colors', 'Colors'));
-      content.appendChild(buildColorsSection(colors));
-    }
+    colorLibrary = colors || [];
 
     const liveFolders = root.folders || [];
     const matchedLiveFolders = new Set();
     const taxonomy = window.PLANNED_TAXONOMY || [];
 
-    taxonomy.forEach((planned) => {
+    // Colors sits right after Logos & Marks (the first planned category),
+    // ahead of the rest of the taxonomy.
+    const [firstCategory, ...restCategories] = taxonomy;
+
+    if (firstCategory) {
+      const section = renderPlannedCategory(firstCategory, liveFolders, matchedLiveFolders);
+      if (section) content.appendChild(section);
+    }
+
+    if (colors && colors.length) {
+      const group = document.createElement('div');
+      group.className = 'nav-group';
+      group.appendChild(navLink('#colors', 'Colors'));
+      group.appendChild(navLink('#colors-swatches', 'Swatches', 'sub-link'));
+      group.appendChild(navLink('#colors-colors-in-use', 'Colors In Use', 'sub-link'));
+      group.appendChild(navLink('#colors-what-not-to-do', 'What Not To Do', 'sub-link'));
+      sidenav.appendChild(group);
+      content.appendChild(buildColorsSection(colors));
+    }
+
+    restCategories.forEach((planned) => {
       const section = renderPlannedCategory(planned, liveFolders, matchedLiveFolders);
       if (section) content.appendChild(section);
     });

@@ -9,73 +9,19 @@
         "name": "Logos & Marks",
         "slug": "logos",
         "description": "Primary marks. Use these files as-is \u2014 don't recolor, stretch, or rebuild them from scratch.",
-        "folders": [
-          {
-            "name": "Symbol",
-            "slug": "logos-symbol",
-            "files": [
-              {
-                "name": "Symbol - Full Color.svg",
-                "kind": "image",
-                "thumbnailUrl": "https://placehold.co/400x300/5B5FEF/ffffff?text=Symbol",
-                "viewUrl": "#",
-                "downloadUrl": "#"
-              },
-              {
-                "name": "Symbol - White.svg",
-                "kind": "image",
-                "thumbnailUrl": "https://placehold.co/400x300/1a1a1a/ffffff?text=Symbol+White",
-                "viewUrl": "#",
-                "downloadUrl": "#"
-              }
-            ]
-          },
-          {
-            "name": "Logotype",
-            "slug": "logos-logotype",
-            "folders": [
-              {
-                "name": "Vertical",
-                "slug": "logos-logotype-vert",
-                "files": [
-                  {
-                    "name": "Logotype - Vertical.svg",
-                    "kind": "image",
-                    "thumbnailUrl": "https://placehold.co/400x300/5B5FEF/ffffff?text=Vertical",
-                    "viewUrl": "#",
-                    "downloadUrl": "#"
-                  }
-                ]
-              },
-              {
-                "name": "Horizontal",
-                "slug": "logos-logotype-horiz",
-                "files": [
-                  {
-                    "name": "Logotype - Horizontal Purple.svg",
-                    "kind": "image",
-                    "thumbnailUrl": "https://placehold.co/600x160/5B5FEF/ffffff?text=Stridekick",
-                    "viewUrl": "#",
-                    "downloadUrl": "#"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "name": "Pro",
-            "slug": "logos-pro",
-            "description": "Protected clear-space and minimum-size specs.",
-            "files": [
-              {
-                "name": "Clearspace + Minimum Size.pdf",
-                "kind": "pdf",
-                "thumbnailUrl": "https://placehold.co/400x300/e5e5e5/1a1a1a?text=PDF",
-                "viewUrl": "#",
-                "downloadUrl": "#"
-              }
-            ]
-          }
+        "files": [
+          { "name": "Stridekick-Grimace-Horizontal.png", "kind": "image", "thumbnailUrl": "https://placehold.co/600x160/5B5FEF/ffffff?text=Stridekick", "viewUrl": "#", "downloadUrl": "#" },
+          { "name": "Stridekick-Grimace-Horizontal.svg", "kind": "image", "thumbnailUrl": "https://placehold.co/600x160/5B5FEF/ffffff?text=Stridekick", "viewUrl": "#", "downloadUrl": "#" },
+          { "name": "Stridekick-Grimace-Vertical.png", "kind": "image", "thumbnailUrl": "https://placehold.co/400x500/5B5FEF/ffffff?text=Stridekick", "viewUrl": "#", "downloadUrl": "#" },
+          { "name": "Stridekick-Grimace-Vertical.svg", "kind": "image", "thumbnailUrl": "https://placehold.co/400x500/5B5FEF/ffffff?text=Stridekick", "viewUrl": "#", "downloadUrl": "#" },
+          { "name": "Stridekick-Midnight-Horizontal.png", "kind": "image", "thumbnailUrl": "https://placehold.co/600x160/171E43/ffffff?text=Stridekick", "viewUrl": "#", "downloadUrl": "#" },
+          { "name": "Stridekick-Midnight-Horizontal.svg", "kind": "image", "thumbnailUrl": "https://placehold.co/600x160/171E43/ffffff?text=Stridekick", "viewUrl": "#", "downloadUrl": "#" },
+          { "name": "Stridekick-Midnight-Vertical.png", "kind": "image", "thumbnailUrl": "https://placehold.co/400x500/171E43/ffffff?text=Stridekick", "viewUrl": "#", "downloadUrl": "#" },
+          { "name": "Stridekick-Midnight-Vertical.svg", "kind": "image", "thumbnailUrl": "https://placehold.co/400x500/171E43/ffffff?text=Stridekick", "viewUrl": "#", "downloadUrl": "#" },
+          { "name": "Stridekick-White-Horizontal.png", "kind": "image", "thumbnailUrl": "https://placehold.co/600x160/1a1a1a/ffffff?text=Stridekick", "viewUrl": "#", "downloadUrl": "#" },
+          { "name": "Stridekick-White-Horizontal.svg", "kind": "image", "thumbnailUrl": "https://placehold.co/600x160/1a1a1a/ffffff?text=Stridekick", "viewUrl": "#", "downloadUrl": "#" },
+          { "name": "Stridekick-White-Vertical.png", "kind": "image", "thumbnailUrl": "https://placehold.co/400x500/1a1a1a/ffffff?text=Stridekick", "viewUrl": "#", "downloadUrl": "#" },
+          { "name": "Stridekick-White-Vertical.svg", "kind": "image", "thumbnailUrl": "https://placehold.co/400x500/1a1a1a/ffffff?text=Stridekick", "viewUrl": "#", "downloadUrl": "#" }
         ]
       },
       {
