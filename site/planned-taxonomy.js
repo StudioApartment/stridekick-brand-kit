@@ -13,7 +13,7 @@
 // being out of date.
 window.PLANNED_TAXONOMY = [
   {
-    name: 'Logos',
+    name: 'Logos & Marks',
     children: [
       { name: 'Symbol' },
       { name: 'Logotype', children: [{ name: 'Vertical' }, { name: 'Horizontal' }] },

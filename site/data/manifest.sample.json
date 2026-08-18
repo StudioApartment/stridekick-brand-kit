@@ -6,16 +6,28 @@
     "name": "Stridekick Brand Kit",
     "folders": [
       {
-        "name": "Logos",
+        "name": "Logos & Marks",
         "slug": "logos",
-        "description": "Primary marks. Use these files as-is — don't recolor, stretch, or rebuild them from scratch.",
+        "description": "Primary marks. Use these files as-is \u2014 don't recolor, stretch, or rebuild them from scratch.",
         "folders": [
           {
             "name": "Symbol",
             "slug": "logos-symbol",
             "files": [
-              { "name": "Symbol - Full Color.svg", "kind": "image", "thumbnailUrl": "https://placehold.co/400x300/5B5FEF/ffffff?text=Symbol", "viewUrl": "#", "downloadUrl": "#" },
-              { "name": "Symbol - White.svg", "kind": "image", "thumbnailUrl": "https://placehold.co/400x300/1a1a1a/ffffff?text=Symbol+White", "viewUrl": "#", "downloadUrl": "#" }
+              {
+                "name": "Symbol - Full Color.svg",
+                "kind": "image",
+                "thumbnailUrl": "https://placehold.co/400x300/5B5FEF/ffffff?text=Symbol",
+                "viewUrl": "#",
+                "downloadUrl": "#"
+              },
+              {
+                "name": "Symbol - White.svg",
+                "kind": "image",
+                "thumbnailUrl": "https://placehold.co/400x300/1a1a1a/ffffff?text=Symbol+White",
+                "viewUrl": "#",
+                "downloadUrl": "#"
+              }
             ]
           },
           {
@@ -26,14 +38,26 @@
                 "name": "Vertical",
                 "slug": "logos-logotype-vert",
                 "files": [
-                  { "name": "Logotype - Vertical.svg", "kind": "image", "thumbnailUrl": "https://placehold.co/400x300/5B5FEF/ffffff?text=Vertical", "viewUrl": "#", "downloadUrl": "#" }
+                  {
+                    "name": "Logotype - Vertical.svg",
+                    "kind": "image",
+                    "thumbnailUrl": "https://placehold.co/400x300/5B5FEF/ffffff?text=Vertical",
+                    "viewUrl": "#",
+                    "downloadUrl": "#"
+                  }
                 ]
               },
               {
                 "name": "Horizontal",
                 "slug": "logos-logotype-horiz",
                 "files": [
-                  { "name": "Logotype - Horizontal Purple.svg", "kind": "image", "thumbnailUrl": "https://placehold.co/600x160/5B5FEF/ffffff?text=Stridekick", "viewUrl": "#", "downloadUrl": "#" }
+                  {
+                    "name": "Logotype - Horizontal Purple.svg",
+                    "kind": "image",
+                    "thumbnailUrl": "https://placehold.co/600x160/5B5FEF/ffffff?text=Stridekick",
+                    "viewUrl": "#",
+                    "downloadUrl": "#"
+                  }
                 ]
               }
             ]
@@ -43,7 +67,13 @@
             "slug": "logos-pro",
             "description": "Protected clear-space and minimum-size specs.",
             "files": [
-              { "name": "Clearspace + Minimum Size.pdf", "kind": "pdf", "thumbnailUrl": "https://placehold.co/400x300/e5e5e5/1a1a1a?text=PDF", "viewUrl": "#", "downloadUrl": "#" }
+              {
+                "name": "Clearspace + Minimum Size.pdf",
+                "kind": "pdf",
+                "thumbnailUrl": "https://placehold.co/400x300/e5e5e5/1a1a1a?text=PDF",
+                "viewUrl": "#",
+                "downloadUrl": "#"
+              }
             ]
           }
         ]
@@ -52,40 +82,228 @@
         "name": "Typography",
         "slug": "typography",
         "folders": [
-          { "name": "Web", "slug": "typography-web", "files": [ { "name": "Web type specimen.png", "kind": "image", "thumbnailUrl": "https://placehold.co/400x300/111111/ffffff?text=Aa+Web", "viewUrl": "#", "downloadUrl": "#" } ] },
-          { "name": "iPhone", "slug": "typography-iphone", "files": [ { "name": "iOS type specimen.png", "kind": "image", "thumbnailUrl": "https://placehold.co/400x300/111111/ffffff?text=Aa+iOS", "viewUrl": "#", "downloadUrl": "#" } ] },
-          { "name": "Custom Lettering", "slug": "typography-custom-lettering", "files": [ { "name": "Custom lettering examples.png", "kind": "image", "thumbnailUrl": "https://placehold.co/400x300/111111/ffffff?text=Lettering", "viewUrl": "#", "downloadUrl": "#" } ] },
-          { "name": "In Use", "slug": "typography-in-use", "files": [ { "name": "Typography in use.png", "kind": "image", "thumbnailUrl": "https://placehold.co/400x300/111111/ffffff?text=In+Use", "viewUrl": "#", "downloadUrl": "#" } ] },
-          { "name": "Typography No's", "slug": "typography-nos", "isDont": true, "files": [ { "name": "Don't - condensed or stretched.png", "kind": "image", "thumbnailUrl": "https://placehold.co/400x300/c0392b/ffffff?text=Don%27t", "viewUrl": "#", "downloadUrl": "#" } ] }
+          {
+            "name": "Web",
+            "slug": "typography-web",
+            "files": [
+              {
+                "name": "Web type specimen.png",
+                "kind": "image",
+                "thumbnailUrl": "https://placehold.co/400x300/111111/ffffff?text=Aa+Web",
+                "viewUrl": "#",
+                "downloadUrl": "#"
+              }
+            ]
+          },
+          {
+            "name": "iPhone",
+            "slug": "typography-iphone",
+            "files": [
+              {
+                "name": "iOS type specimen.png",
+                "kind": "image",
+                "thumbnailUrl": "https://placehold.co/400x300/111111/ffffff?text=Aa+iOS",
+                "viewUrl": "#",
+                "downloadUrl": "#"
+              }
+            ]
+          },
+          {
+            "name": "Custom Lettering",
+            "slug": "typography-custom-lettering",
+            "files": [
+              {
+                "name": "Custom lettering examples.png",
+                "kind": "image",
+                "thumbnailUrl": "https://placehold.co/400x300/111111/ffffff?text=Lettering",
+                "viewUrl": "#",
+                "downloadUrl": "#"
+              }
+            ]
+          },
+          {
+            "name": "In Use",
+            "slug": "typography-in-use",
+            "files": [
+              {
+                "name": "Typography in use.png",
+                "kind": "image",
+                "thumbnailUrl": "https://placehold.co/400x300/111111/ffffff?text=In+Use",
+                "viewUrl": "#",
+                "downloadUrl": "#"
+              }
+            ]
+          },
+          {
+            "name": "Typography No's",
+            "slug": "typography-nos",
+            "isDont": true,
+            "files": [
+              {
+                "name": "Don't - condensed or stretched.png",
+                "kind": "image",
+                "thumbnailUrl": "https://placehold.co/400x300/c0392b/ffffff?text=Don%27t",
+                "viewUrl": "#",
+                "downloadUrl": "#"
+              }
+            ]
+          }
         ]
       },
       {
         "name": "Visual Patterns",
         "slug": "visual-patterns",
         "folders": [
-          { "name": "Type Outline", "slug": "patterns-type-outline", "files": [ { "name": "Type outline pattern.png", "kind": "image", "thumbnailUrl": "https://placehold.co/400x300/2c3e50/ffffff?text=Outline", "viewUrl": "#", "downloadUrl": "#" } ] },
-          { "name": "Type Shadow", "slug": "patterns-type-shadow", "files": [ { "name": "Type shadow pattern.png", "kind": "image", "thumbnailUrl": "https://placehold.co/400x300/2c3e50/ffffff?text=Shadow", "viewUrl": "#", "downloadUrl": "#" } ] },
-          { "name": "What Not To Do", "slug": "patterns-what-not-to-do", "isDont": true, "files": [ { "name": "Don't - low contrast pattern.png", "kind": "image", "thumbnailUrl": "https://placehold.co/400x300/c0392b/ffffff?text=Don%27t", "viewUrl": "#", "downloadUrl": "#" } ] }
+          {
+            "name": "Type Outline",
+            "slug": "patterns-type-outline",
+            "files": [
+              {
+                "name": "Type outline pattern.png",
+                "kind": "image",
+                "thumbnailUrl": "https://placehold.co/400x300/2c3e50/ffffff?text=Outline",
+                "viewUrl": "#",
+                "downloadUrl": "#"
+              }
+            ]
+          },
+          {
+            "name": "Type Shadow",
+            "slug": "patterns-type-shadow",
+            "files": [
+              {
+                "name": "Type shadow pattern.png",
+                "kind": "image",
+                "thumbnailUrl": "https://placehold.co/400x300/2c3e50/ffffff?text=Shadow",
+                "viewUrl": "#",
+                "downloadUrl": "#"
+              }
+            ]
+          },
+          {
+            "name": "What Not To Do",
+            "slug": "patterns-what-not-to-do",
+            "isDont": true,
+            "files": [
+              {
+                "name": "Don't - low contrast pattern.png",
+                "kind": "image",
+                "thumbnailUrl": "https://placehold.co/400x300/c0392b/ffffff?text=Don%27t",
+                "viewUrl": "#",
+                "downloadUrl": "#"
+              }
+            ]
+          }
         ]
       },
       {
         "name": "Stickers",
         "slug": "stickers",
         "folders": [
-          { "name": "How To Use", "slug": "stickers-how-to-use", "files": [ { "name": "Sticker usage guide.png", "kind": "image", "thumbnailUrl": "https://placehold.co/400x300/f39c12/1a1a1a?text=How+To+Use", "viewUrl": "#", "downloadUrl": "#" } ] },
-          { "name": "Not To Do", "slug": "stickers-not-to-do", "isDont": true, "files": [] },
-          { "name": "What Not To Do", "slug": "stickers-what-not-to-do", "isDont": true, "files": [ { "name": "Don't - sticker misuse.png", "kind": "image", "thumbnailUrl": "https://placehold.co/400x300/c0392b/ffffff?text=Don%27t", "viewUrl": "#", "downloadUrl": "#" } ] }
+          {
+            "name": "How To Use",
+            "slug": "stickers-how-to-use",
+            "files": [
+              {
+                "name": "Sticker usage guide.png",
+                "kind": "image",
+                "thumbnailUrl": "https://placehold.co/400x300/f39c12/1a1a1a?text=How+To+Use",
+                "viewUrl": "#",
+                "downloadUrl": "#"
+              }
+            ]
+          },
+          {
+            "name": "Not To Do",
+            "slug": "stickers-not-to-do",
+            "isDont": true,
+            "files": []
+          },
+          {
+            "name": "What Not To Do",
+            "slug": "stickers-what-not-to-do",
+            "isDont": true,
+            "files": [
+              {
+                "name": "Don't - sticker misuse.png",
+                "kind": "image",
+                "thumbnailUrl": "https://placehold.co/400x300/c0392b/ffffff?text=Don%27t",
+                "viewUrl": "#",
+                "downloadUrl": "#"
+              }
+            ]
+          }
         ]
       },
       {
         "name": "Imagery",
         "slug": "imagery",
         "folders": [
-          { "name": "Videos", "slug": "imagery-videos", "files": [ { "name": "Brand reel.mp4", "kind": "video", "thumbnailUrl": "https://placehold.co/400x300/16a085/ffffff?text=Video", "viewUrl": "#", "downloadUrl": "#" } ] },
-          { "name": "Photography - Lifestyle", "slug": "imagery-photo-lifestyle", "files": [ { "name": "Lifestyle 01.jpg", "kind": "image", "thumbnailUrl": "https://placehold.co/400x300/8e44ad/ffffff?text=Lifestyle", "viewUrl": "#", "downloadUrl": "#" } ] },
-          { "name": "Photography - Product", "slug": "imagery-photo-product", "files": [ { "name": "Product 01.jpg", "kind": "image", "thumbnailUrl": "https://placehold.co/400x300/8e44ad/ffffff?text=Product", "viewUrl": "#", "downloadUrl": "#" } ] },
-          { "name": "Device Mock-ups", "slug": "imagery-device-mockups", "files": [ { "name": "iPhone mockup.png", "kind": "image", "thumbnailUrl": "https://placehold.co/400x300/34495e/ffffff?text=Mockup", "viewUrl": "#", "downloadUrl": "#" } ] },
-          { "name": "Screenshots", "slug": "imagery-screenshots", "files": [ { "name": "App screenshot 01.png", "kind": "image", "thumbnailUrl": "https://placehold.co/400x300/34495e/ffffff?text=Screenshot", "viewUrl": "#", "downloadUrl": "#" } ] }
+          {
+            "name": "Videos",
+            "slug": "imagery-videos",
+            "files": [
+              {
+                "name": "Brand reel.mp4",
+                "kind": "video",
+                "thumbnailUrl": "https://placehold.co/400x300/16a085/ffffff?text=Video",
+                "viewUrl": "#",
+                "downloadUrl": "#"
+              }
+            ]
+          },
+          {
+            "name": "Photography - Lifestyle",
+            "slug": "imagery-photo-lifestyle",
+            "files": [
+              {
+                "name": "Lifestyle 01.jpg",
+                "kind": "image",
+                "thumbnailUrl": "https://placehold.co/400x300/8e44ad/ffffff?text=Lifestyle",
+                "viewUrl": "#",
+                "downloadUrl": "#"
+              }
+            ]
+          },
+          {
+            "name": "Photography - Product",
+            "slug": "imagery-photo-product",
+            "files": [
+              {
+                "name": "Product 01.jpg",
+                "kind": "image",
+                "thumbnailUrl": "https://placehold.co/400x300/8e44ad/ffffff?text=Product",
+                "viewUrl": "#",
+                "downloadUrl": "#"
+              }
+            ]
+          },
+          {
+            "name": "Device Mock-ups",
+            "slug": "imagery-device-mockups",
+            "files": [
+              {
+                "name": "iPhone mockup.png",
+                "kind": "image",
+                "thumbnailUrl": "https://placehold.co/400x300/34495e/ffffff?text=Mockup",
+                "viewUrl": "#",
+                "downloadUrl": "#"
+              }
+            ]
+          },
+          {
+            "name": "Screenshots",
+            "slug": "imagery-screenshots",
+            "files": [
+              {
+                "name": "App screenshot 01.png",
+                "kind": "image",
+                "thumbnailUrl": "https://placehold.co/400x300/34495e/ffffff?text=Screenshot",
+                "viewUrl": "#",
+                "downloadUrl": "#"
+              }
+            ]
+          }
         ]
       }
     ]

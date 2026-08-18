@@ -5,5 +5,5 @@
 // blank and the site falls back to data/manifest.json, then to the
 // bundled sample data.
 window.BRAND_KIT_CONFIG = {
-  manifestUrl: "",
+  manifestUrl: "https://script.google.com/macros/s/AKfycby7cZNYCX5RNmSSMGu9b7I4zwv_ZXrS0XHWvyeLKSClQjfUrZWJhMBsL1-2Eearqz8IjA/exec",
 };

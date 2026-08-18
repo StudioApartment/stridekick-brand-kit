@@ -24,11 +24,17 @@
     const liveUrl = window.BRAND_KIT_CONFIG && window.BRAND_KIT_CONFIG.manifestUrl;
     if (liveUrl) {
       try {
-        const res = await fetch(liveUrl, { cache: 'no-store' });
+        // Apps Script cold-starts can be slow, and a hung request would
+        // otherwise leave the page stuck loading forever — cap it so we
+        // always fall through to the other sources.
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 15000);
+        const res = await fetch(liveUrl, { cache: 'no-store', signal: controller.signal });
+        clearTimeout(timeout);
         if (res.ok) return await res.json();
         console.warn('manifestUrl responded but not OK, falling back:', res.status);
       } catch (e) {
-        console.warn('manifestUrl fetch failed, falling back:', e);
+        console.warn('manifestUrl fetch failed or timed out, falling back:', e);
       }
     }
     // 2. A manifest.json committed alongside the site (e.g. by the
@@ -55,18 +61,28 @@
     return (folders || []).find((f) => normalize(f.name) === target);
   }
 
-  // Finds a header logo from Logos > Logotype > Horizontal (preferring a
-  // file with "purple" in the name), falling back one level up if that
-  // exact structure isn't there yet.
+  // Finds a header logo, preferring the horizontal Grimace (purple) mark.
+  // Handles both a flat "Logos & Marks" folder (files directly inside)
+  // and the nested Logos > Logotype > Horizontal structure.
   function findHeaderLogoFile(root) {
-    const logos = findMatch(root.folders, 'Logos');
-    const logotype = logos && findMatch(logos.folders, 'Logotype');
-    const horizontal = logotype && findMatch(logotype.folders, 'Horizontal');
-    const pool = (horizontal && horizontal.files && horizontal.files.length)
-      ? horizontal.files
-      : (logotype && logotype.files) || [];
+    const logos = findMatch(root.folders, 'Logos & Marks') || findMatch(root.folders, 'Logos');
+    if (!logos) return null;
+
+    let pool = logos.files || [];
+    if (!pool.length) {
+      const logotype = findMatch(logos.folders, 'Logotype');
+      const horizontal = logotype && findMatch(logotype.folders, 'Horizontal');
+      pool = (horizontal && horizontal.files && horizontal.files.length)
+        ? horizontal.files
+        : (logotype && logotype.files) || [];
+    }
     if (!pool.length) return null;
-    return pool.find((f) => /purple/i.test(f.name)) || pool[0];
+
+    const horizontalFiles = pool.filter((f) => /horizontal/i.test(f.name));
+    const candidates = horizontalFiles.length ? horizontalFiles : pool;
+    return candidates.find((f) => /grimace|purple/i.test(f.name) && /\.svg$/i.test(f.name))
+      || candidates.find((f) => /grimace|purple/i.test(f.name))
+      || candidates[0];
   }
 
   function setHeaderLogo(root) {
@@ -175,6 +191,26 @@
     return luminance > 0.6 ? '#171E43' : '#ffffff';
   }
 
+  // Mixes a hex color toward white by `pct` — a 100% tint is the color
+  // itself, lower percentages are progressively lighter.
+  function tint(hex, pct) {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    const mix = (c) => Math.round(c * (pct / 100) + 255 * (1 - pct / 100));
+    const toHex = (c) => c.toString(16).padStart(2, '0');
+    return `#${toHex(mix(r))}${toHex(mix(g))}${toHex(mix(b))}`;
+  }
+
+  function tintRow(color) {
+    if (!color.tints || !color.tints.length) return '';
+    const chips = color.tints.map((pct) => {
+      const tintHex = tint(color.hex, pct);
+      return `<div class="tint-chip" style="background:${tintHex}" data-hex="${tintHex}" title="${color.name} ${pct}% — ${tintHex.toUpperCase()} (click to copy)"></div>`;
+    }).join('');
+    return `<div class="tint-row">${chips}</div>`;
+  }
+
   function colorCard(color) {
     const card = document.createElement('button');
     card.type = 'button';
@@ -188,15 +224,19 @@
       color.pms ? `PMS ${color.pms}` : '',
     ].filter(Boolean);
     card.innerHTML = `
-      <div class="color-swatch">${color.name}</div>
-      <div class="color-body">
-        ${codeLines.map((line) => `<div class="color-code">${line}</div>`).join('')}
-      </div>`;
-    card.title = 'Click to copy hex';
+      <div class="color-name">${color.name}</div>
+      ${tintRow(color)}`;
+    card.title = `${color.name} — ${codeLines.join(' · ')} (click to copy hex)`;
     card.addEventListener('click', () => {
       navigator.clipboard?.writeText(color.hex).catch(() => {});
       card.classList.add('copied');
       setTimeout(() => card.classList.remove('copied'), 900);
+    });
+    card.querySelectorAll('.tint-chip').forEach((chip) => {
+      chip.addEventListener('click', (e) => {
+        e.stopPropagation();
+        navigator.clipboard?.writeText(chip.dataset.hex).catch(() => {});
+      });
     });
     return card;
   }
@@ -273,17 +313,20 @@
   function renderPlannedCategory(planned, liveFolders, matchedLiveFolders) {
     const slug = slugify(planned.name);
     const live = findMatch(liveFolders, planned.name);
+    const group = document.createElement('div');
+    group.className = 'nav-group';
 
     if (!live) {
-      sidenav.appendChild(navDisabled(planned.name));
+      group.appendChild(navDisabled(planned.name));
       (planned.children || []).forEach((sub) => {
-        sidenav.appendChild(navDisabled(sub.name, 'sub-link'));
+        group.appendChild(navDisabled(sub.name, 'sub-link'));
       });
+      sidenav.appendChild(group);
       return null;
     }
 
     matchedLiveFolders.add(live);
-    sidenav.appendChild(navLink(`#${slug}`, planned.name));
+    group.appendChild(navLink(`#${slug}`, planned.name));
 
     const liveSubfolders = live.folders || [];
     const matchedSub = new Set();
@@ -292,9 +335,9 @@
       const subSlug = `${slug}-${slugify(sub.name)}`;
       if (liveSub) {
         matchedSub.add(liveSub);
-        sidenav.appendChild(navLink(`#${subSlug}`, sub.name, 'sub-link'));
+        group.appendChild(navLink(`#${subSlug}`, sub.name, 'sub-link'));
       } else {
-        sidenav.appendChild(navDisabled(sub.name, 'sub-link'));
+        group.appendChild(navDisabled(sub.name, 'sub-link'));
       }
     });
 
@@ -302,9 +345,10 @@
     // nav link — new folders in Drive are never hidden by this file
     // being out of date.
     liveSubfolders.filter((f) => !matchedSub.has(f)).forEach((f) => {
-      sidenav.appendChild(navLink(`#${slug}-${slugify(f.name)}`, f.name, 'sub-link'));
+      group.appendChild(navLink(`#${slug}-${slugify(f.name)}`, f.name, 'sub-link'));
     });
 
+    sidenav.appendChild(group);
     return buildSection(live, slug);
   }
 
@@ -329,12 +373,17 @@
     // Real top-level folders that aren't part of the planned taxonomy at
     // all (e.g. a brand-new category) still render normally, appended
     // after the planned ones.
-    liveFolders.filter((f) => !matchedLiveFolders.has(f)).forEach((folder) => {
+    // Skip a live "Colors" folder — the curated colors.json section above
+    // already covers it and shares the same #colors anchor.
+    liveFolders.filter((f) => !matchedLiveFolders.has(f) && normalize(f.name) !== 'colors').forEach((folder) => {
       const slug = slugify(folder.name);
-      sidenav.appendChild(navLink(`#${slug}`, folder.name));
+      const group = document.createElement('div');
+      group.className = 'nav-group';
+      group.appendChild(navLink(`#${slug}`, folder.name));
       (folder.folders || []).forEach((sub) => {
-        sidenav.appendChild(navLink(`#${slug}-${slugify(sub.name)}`, sub.name, 'sub-link'));
+        group.appendChild(navLink(`#${slug}-${slugify(sub.name)}`, sub.name, 'sub-link'));
       });
+      sidenav.appendChild(group);
       content.appendChild(buildSection(folder, slug));
     });
   }
