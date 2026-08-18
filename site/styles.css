@@ -327,7 +327,6 @@ body {
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
   width: 32px;
   height: 32px;
   border: 3px solid var(--line);
@@ -335,7 +334,10 @@ body {
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
 }
-@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes spin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
 
 .modal {
   position: fixed; inset: 0; z-index: 100;
